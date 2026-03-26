@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 
 const SOCIAL_ICONS = {
@@ -93,9 +94,9 @@ export function ShareSheet({
             {variant === 'collection' ? (
               <div className="space-y-4">
                 <div className="relative h-[220px] w-full overflow-hidden rounded-2xl bg-[#222]">
-                  <img src={previewUrl} alt={title} className="h-full w-full object-cover" />
+                  <Image src={previewUrl} alt={title} className="h-full w-full object-cover" />
                   {ownerAvatarUrl ? (
-                    <img
+                    <Image
                       src={ownerAvatarUrl}
                       alt={ownerName}
                       className="absolute -bottom-3 left-1/2 h-14 w-14 -translate-x-1/2 rounded-xl border-2 border-[#161616] object-cover"
@@ -108,10 +109,10 @@ export function ShareSheet({
               <div className="space-y-4">
                 <div className="relative mx-auto w-[200px] pb-8">
                   <div className="h-[194px] w-[200px] overflow-hidden rounded-xl bg-[#222]">
-                    <img src={previewUrl} alt={title} className="h-full w-full object-cover" />
+                    <Image src={previewUrl} alt={title} className="h-full w-full object-cover" />
                   </div>
                   {ownerAvatarUrl ? (
-                    <img
+                    <Image
                       src={ownerAvatarUrl}
                       alt={ownerName}
                       className="absolute bottom-0 left-1/2 h-[60px] w-[60px] -translate-x-1/2 rounded-xl border-2 border-[#161616] object-cover"
@@ -122,7 +123,7 @@ export function ShareSheet({
                 <div className="flex items-center justify-center gap-2">
                   <p className="text-[34px] leading-8 font-medium text-white">{title}</p>
                   {variant === 'country' && countryFlagUrl ? (
-                    <img src={countryFlagUrl} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
+                    <Image src={countryFlagUrl} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
                   ) : null}
                 </div>
               </div>
@@ -136,13 +137,13 @@ export function ShareSheet({
 
           <div className="grid grid-cols-5 gap-3">
             <button type="button" onClick={() => openShareWindow(shareLinks.whatsapp)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <img src={SOCIAL_ICONS.whatsapp} alt="Share on WhatsApp" className="h-8 w-8 object-contain" />
+              <Image src={SOCIAL_ICONS.whatsapp} alt="Share on WhatsApp" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.messenger)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <img src={SOCIAL_ICONS.messenger} alt="Share on Messenger" className="h-8 w-8 object-contain" />
+              <Image src={SOCIAL_ICONS.messenger} alt="Share on Messenger" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.facebook)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <img src={SOCIAL_ICONS.facebook} alt="Share on Facebook" className="h-8 w-8 object-contain" />
+              <Image src={SOCIAL_ICONS.facebook} alt="Share on Facebook" className="h-8 w-8 object-contain" />
             </button>
             <button
               type="button"
@@ -153,10 +154,10 @@ export function ShareSheet({
               }}
               className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]"
             >
-              <img src={SOCIAL_ICONS.instagram} alt="Copy for Instagram" className="h-8 w-8 object-contain" />
+              <Image src={SOCIAL_ICONS.instagram} alt="Copy for Instagram" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.x)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <img src={SOCIAL_ICONS.x} alt="Share on X" className="h-8 w-8 object-contain" />
+              <Image src={SOCIAL_ICONS.x} alt="Share on X" className="h-8 w-8 object-contain" />
             </button>
           </div>
 
@@ -184,17 +185,16 @@ export function ReportSheet({ open, onClose, targetLabel, onSubmit }: ReportShee
   const [reason, setReason] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    if (!open) {
-      setReason('');
-      setSubmitted(false);
-    }
-  }, [open]);
+  const handleClose = () => {
+    setReason('');
+    setSubmitted(false);
+    onClose();
+  };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm" onClick={handleClose}>
       <div className="absolute inset-x-0 bottom-0 rounded-t-3xl border border-[#2a2a2a] bg-[#161616] p-5 md:left-1/2 md:top-1/2 md:inset-x-auto md:bottom-auto md:w-[420px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:p-6" onClick={(event) => event.stopPropagation()}>
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-white">Report {targetLabel}</h3>
@@ -208,7 +208,7 @@ export function ReportSheet({ open, onClose, targetLabel, onSubmit }: ReportShee
           />
           {submitted ? <p className="text-sm text-[#86efac]">Report sent. Thank you.</p> : null}
           <div className="flex gap-2">
-            <button type="button" onClick={onClose} className="flex-1 rounded-full border border-[#2a2a2a] px-4 py-2.5 text-sm text-[#d0d0d0]">
+            <button type="button" onClick={handleClose} className="flex-1 rounded-full border border-[#2a2a2a] px-4 py-2.5 text-sm text-[#d0d0d0]">
               Cancel
             </button>
             <button
@@ -217,7 +217,7 @@ export function ReportSheet({ open, onClose, targetLabel, onSubmit }: ReportShee
               onClick={() => {
                 onSubmit?.(reason.trim());
                 setSubmitted(true);
-                window.setTimeout(onClose, 800);
+                window.setTimeout(handleClose, 800);
               }}
               className="flex-1 rounded-full bg-white px-4 py-2.5 text-sm font-medium text-black disabled:opacity-50"
             >

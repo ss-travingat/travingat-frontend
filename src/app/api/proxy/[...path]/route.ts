@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const BACKEND_BASE = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 export const runtime = 'nodejs';
 
@@ -8,17 +8,13 @@ function normalizeBase(base: string) {
   return base.replace(/\/$/, '');
 }
 
-function resolveBackendBases(req: NextRequest) {
+function resolveBackendBases() {
   const bases = new Set<string>();
   bases.add(normalizeBase(BACKEND_BASE));
-  bases.add('http://localhost:8080');
-  bases.add('http://127.0.0.1:8080');
 
-  const host = req.headers.get('host') || '';
-  const hostname = host.split(':')[0]?.trim();
-  if (hostname) {
-    const protocol = req.nextUrl.protocol === 'https:' ? 'https:' : 'http:';
-    bases.add(`${protocol}//${hostname}:8080`);
+  if (process.env.NODE_ENV !== 'production') {
+    bases.add('http://localhost:8080');
+    bases.add('http://127.0.0.1:8080');
   }
 
   return Array.from(bases);
@@ -44,7 +40,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   const attemptedTargets: string[] = [];
   const errors: string[] = [];
 
-  for (const base of resolveBackendBases(req)) {
+  for (const base of resolveBackendBases()) {
     const targetURL = buildTargetURL(base, joinedPath, req.nextUrl.search);
     attemptedTargets.push(targetURL);
 
@@ -70,10 +66,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
     }
   }
 
-  return NextResponse.json(
-    { error: 'Proxy request failed', targets: attemptedTargets, detail: errors[0] || '' },
-    { status: 502 }
-  );
+  return NextResponse.json({ error: 'Proxy request failed', detail: errors[0] || '' }, { status: 502 });
 }
 
 export async function GET(req: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {

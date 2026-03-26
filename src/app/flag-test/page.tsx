@@ -1,12 +1,13 @@
 'use client';
 
 import { CountryFlag } from '@/components/CountryFlag';
+import Image from 'next/image';
 
 export default function FlagTest() {
   return (
     <div className="min-h-screen bg-white p-8">
       <h1 className="text-3xl font-bold mb-8">Flag Rendering Test</h1>
-      
+
       <div className="space-y-8">
         {/* Test individual flags */}
         <section>
@@ -35,13 +36,13 @@ export default function FlagTest() {
         <section>
           <h2 className="text-xl font-semibold mb-4">Country Samples</h2>
           <div className="grid grid-cols-8 gap-4">
-            {['US', 'GB', 'FR', 'DE', 'JP', 'IN', 'BR', 'CA', 
+            {['US', 'GB', 'FR', 'DE', 'JP', 'IN', 'BR', 'CA',
               'AU', 'IT', 'ES', 'MX', 'CN', 'KR', 'RU', 'ZA'].map(code => (
-              <div key={code} className="text-center">
-                <CountryFlag countryCode={code} size="lg" />
-                <p className="text-xs mt-2">{code}</p>
-              </div>
-            ))}
+                <div key={code} className="text-center">
+                  <CountryFlag countryCode={code} size="lg" />
+                  <p className="text-xs mt-2">{code}</p>
+                </div>
+              ))}
           </div>
         </section>
 
@@ -51,15 +52,15 @@ export default function FlagTest() {
           <div className="flex gap-4">
             <div>
               <p className="text-sm mb-2">US Flag (direct img)</p>
-              <img src="/assets/flags/US.svg" alt="US" width="48" height="32" />
+              <Image src="/assets/flags/US.svg" alt="US" width="48" height="32" />
             </div>
             <div>
               <p className="text-sm mb-2">GB Flag (direct img)</p>
-              <img src="/assets/flags/GB.svg" alt="GB" width="48" height="32" />
+              <Image src="/assets/flags/GB.svg" alt="GB" width="48" height="32" />
             </div>
             <div>
               <p className="text-sm mb-2">FR Flag (direct img)</p>
-              <img src="/assets/flags/FR.svg" alt="FR" width="48" height="32" />
+              <Image src="/assets/flags/FR.svg" alt="FR" width="48" height="32" />
             </div>
           </div>
         </section>

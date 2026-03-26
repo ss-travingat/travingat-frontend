@@ -2,7 +2,7 @@
 
 /**
  * Batch script to fetch all flag metadata using Figma API
- * 
+ *
  * Usage:
  *   1. Get a Figma Personal Access Token from: https://www.figma.com/developers/api#access-tokens
  *   2. Set the token: export FIGMA_TOKEN="your-token-here"
@@ -59,6 +59,7 @@ function apiRequest(url, options = {}) {
             reject(new Error(`HTTP ${res.statusCode}: ${parsed.error || data}`));
           }
         } catch (e) {
+          console.error(e);
           reject(new Error(`Failed to parse response: ${data.substring(0, 200)}`));
         }
       });
@@ -82,7 +83,7 @@ function downloadFile(url, filepath) {
         resolve();
       });
     }).on('error', (err) => {
-      fs.unlink(filepath, () => {});
+      fs.unlink(filepath, () => { });
       reject(err);
     });
   });
@@ -121,14 +122,14 @@ async function main() {
     console.log('📋 Step 1: Fetching metadata...');
     const BATCH_SIZE = 50;
     const flagsMetadata = [];
-    
+
     for (let i = 0; i < ALL_NODE_IDS.length; i += BATCH_SIZE) {
       const batch = ALL_NODE_IDS.slice(i, i + BATCH_SIZE);
       const nodeIdsParam = batch.map(id => id.replace(':', '%3A')).join(',');
       const url = `https://api.figma.com/v1/files/${FILE_KEY}/nodes?ids=${nodeIdsParam}`;
-      
+
       console.log(`  Fetching batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(ALL_NODE_IDS.length / BATCH_SIZE)}...`);
-      
+
       const response = await apiRequest(url, {
         headers: { 'X-Figma-Token': FIGMA_TOKEN }
       });
@@ -154,14 +155,14 @@ async function main() {
     // Step 2: Export SVGs in batches
     console.log('🎨 Step 2: Requesting SVG exports...');
     const exports = {};
-    
+
     for (let i = 0; i < ALL_NODE_IDS.length; i += BATCH_SIZE) {
       const batch = ALL_NODE_IDS.slice(i, i + BATCH_SIZE);
       const nodeIdsParam = batch.map(id => id.replace(':', '%3A')).join(',');
       const url = `https://api.figma.com/v1/images/${FILE_KEY}?ids=${nodeIdsParam}&format=svg`;
-      
+
       console.log(`  Requesting batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(ALL_NODE_IDS.length / BATCH_SIZE)}...`);
-      
+
       const response = await apiRequest(url, {
         headers: { 'X-Figma-Token': FIGMA_TOKEN }
       });
@@ -198,7 +199,7 @@ async function main() {
       try {
         await downloadFile(svgUrl, filepath);
         successCount++;
-        
+
         flagsData.push({
           countryCode: flag.countryCode,
           name: flag.name,
@@ -224,7 +225,7 @@ async function main() {
     // Step 4: Create JSON mapping file
     console.log('💾 Step 4: Creating flags mapping...');
     flagsData.sort((a, b) => a.countryCode.localeCompare(b.countryCode));
-    
+
     const mappingPath = path.join(dataDir, 'flags.json');
     fs.writeFileSync(mappingPath, JSON.stringify(flagsData, null, 2));
     console.log(`✅ Saved ${flagsData.length} flag mappings to flags.json\n`);
@@ -239,13 +240,13 @@ async function main() {
 
   } catch (error) {
     console.error('\n❌ Error:', error.message);
-    
+
     if (error.message.includes('401') || error.message.includes('403')) {
       console.error('\n🔐 Authentication failed. Please check your FIGMA_TOKEN.');
     } else if (error.message.includes('404')) {
       console.error('\n📁 File not found. Please verify the FILE_KEY is correct.');
     }
-    
+
     process.exit(1);
   }
 }

@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
-import { apiFetch, setAccessToken } from '@/lib/auth-client';
+import { apiFetch } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -71,10 +72,6 @@ export default function SignInPage() {
       if (!res.ok) {
         setError(data.error || 'Invalid email or password');
         return;
-      }
-
-      if (typeof data.access_token === 'string' && data.access_token) {
-        setAccessToken(data.access_token);
       }
 
       if (data.user_id) {
@@ -163,10 +160,6 @@ export default function SignInPage() {
         return;
       }
 
-      if (typeof data.access_token === 'string' && data.access_token) {
-        setAccessToken(data.access_token);
-      }
-
       if (data.is_new_user) {
         window.location.href = '/onboarding';
       } else if (data.user_id) {
@@ -248,7 +241,7 @@ export default function SignInPage() {
                       key={i}
                       className="w-[83px] h-[123px] rounded-lg overflow-hidden bg-gray-800"
                     >
-                      <img
+                      <Image
                         src={src}
                         alt={`Travel ${i + 1}`}
                         className="w-full h-full object-cover"

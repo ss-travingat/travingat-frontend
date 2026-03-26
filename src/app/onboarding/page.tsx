@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Footer } from '@/modules/layout';
 import { apiFetch } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -57,12 +58,12 @@ export default function OnboardingPage() {
     step === 1
       ? Boolean(formData.displayName.trim())
       : step === 2
-      ? Boolean(formData.basedIn)
-      : step === 3
-      ? Boolean(formData.countriesTraveled.trim())
-      : step === 4
-      ? Boolean(formData.email.trim())
-      : linkSent;
+        ? Boolean(formData.basedIn)
+        : step === 3
+          ? Boolean(formData.countriesTraveled.trim())
+          : step === 4
+            ? Boolean(formData.email.trim())
+            : linkSent;
 
   const handleNext = () => {
     if (step < TOTAL_STEPS && canProceed) {
@@ -145,7 +146,7 @@ export default function OnboardingPage() {
                     key={i}
                     className="w-27 h-40 rounded-lg overflow-hidden bg-gray-800"
                   >
-                    <img
+                    <Image
                       src={src}
                       alt={`Travel ${i + 1}`}
                       className="w-full h-full object-cover"
@@ -171,13 +172,12 @@ export default function OnboardingPage() {
                     {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((s) => (
                       <div
                         key={s}
-                        className={`h-2 flex-1 rounded-full transition ${
-                          s === step
-                            ? 'bg-orange-500'
-                            : s < step
+                        className={`h-2 flex-1 rounded-full transition ${s === step
+                          ? 'bg-orange-500'
+                          : s < step
                             ? 'bg-orange-500/50'
                             : 'bg-gray-700'
-                        }`}
+                          }`}
                       />
                     ))}
                   </div>
@@ -242,7 +242,7 @@ export default function OnboardingPage() {
                   {step === 3 && (
                     <div>
                       <div className="mb-10">
-                        <h3 className={`${fieldTitleClass} mb-2`}>Countries you've traveled to</h3>
+                        <h3 className={`${fieldTitleClass} mb-2`}>Countries you&apos;ve traveled to</h3>
                         <p className={`${helperTextClass} text-[#767676]`}>You can update it anytime.</p>
                       </div>
                       <input

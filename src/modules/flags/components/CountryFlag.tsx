@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { getFlagByCountryCode } from '@/lib/flags';
+import { getAllCountryCodes, getFlagByCountryCode } from '@/lib/flags';
 
 export interface CountryFlagProps {
   countryCode: string;
@@ -19,18 +19,18 @@ const sizeMap = {
 
 /**
  * CountryFlag component - Displays a country flag SVG
- * 
+ *
  * @example
  * ```tsx
  * <CountryFlag countryCode="US" size="md" />
  * <CountryFlag countryCode="GB" size="lg" className="rounded" />
  * ```
  */
-export function CountryFlag({ 
-  countryCode, 
-  size = 'md', 
+export function CountryFlag({
+  countryCode,
+  size = 'md',
   className = '',
-  alt 
+  alt
 }: CountryFlagProps) {
   const flag = getFlagByCountryCode(countryCode);
   const dimensions = sizeMap[size];
@@ -38,7 +38,7 @@ export function CountryFlag({
   if (!flag) {
     // Fallback for missing flags
     return (
-      <div 
+      <div
         className={`inline-flex items-center justify-center bg-gray-200 text-gray-600 text-xs font-semibold ${className}`}
         style={{ width: dimensions.width, height: dimensions.height }}
         title={`Flag for ${countryCode} not found`}
@@ -63,13 +63,13 @@ export function CountryFlag({
 /**
  * CountryFlagWithName component - Displays flag with country name
  */
-export function CountryFlagWithName({ 
-  countryCode, 
+export function CountryFlagWithName({
+  countryCode,
   size = 'md',
-  className = '' 
+  className = ''
 }: Omit<CountryFlagProps, 'alt'>) {
   const flag = getFlagByCountryCode(countryCode);
-  
+
   if (!flag) {
     return <span className={className}>{countryCode}</span>;
   }
@@ -92,13 +92,12 @@ export interface FlagSelectorProps {
   placeholder?: string;
 }
 
-export function FlagSelector({ 
-  value, 
-  onChange, 
+export function FlagSelector({
+  value,
+  onChange,
   className = '',
   placeholder = 'Select a country...'
 }: FlagSelectorProps) {
-  const { getAllCountryCodes, getFlagByCountryCode } = require('@/lib/flags');
   const countryCodes = getAllCountryCodes();
 
   return (

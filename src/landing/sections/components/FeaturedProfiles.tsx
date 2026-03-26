@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { demoProfiles } from "@/data/demo-profiles";
 
 function TravellerCard({
@@ -111,28 +111,28 @@ export default function FeaturedProfiles() {
 
   const allCards = [...demoProfiles, ...demoProfiles]; // duplicate for seamless loop
 
-  const animate = useCallback(() => {
-    if (!scrollRef.current) return;
-    const el = scrollRef.current;
-    const singleSetWidth = el.scrollWidth / 2;
-
-    if (!isPaused) {
-      scrollPositionRef.current += speedRef.current;
-      if (scrollPositionRef.current >= singleSetWidth) {
-        scrollPositionRef.current -= singleSetWidth;
-      }
-      el.scrollLeft = scrollPositionRef.current;
-    }
-
-    animationRef.current = requestAnimationFrame(animate);
-  }, [isPaused]);
-
   useEffect(() => {
-    animationRef.current = requestAnimationFrame(animate);
+    const tick = () => {
+      if (!scrollRef.current) return;
+      const el = scrollRef.current;
+      const singleSetWidth = el.scrollWidth / 2;
+
+      if (!isPaused) {
+        scrollPositionRef.current += speedRef.current;
+        if (scrollPositionRef.current >= singleSetWidth) {
+          scrollPositionRef.current -= singleSetWidth;
+        }
+        el.scrollLeft = scrollPositionRef.current;
+      }
+
+      animationRef.current = requestAnimationFrame(tick);
+    };
+
+    animationRef.current = requestAnimationFrame(tick);
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [animate]);
+  }, [isPaused]);
 
   const handleMouseEnter = () => setIsPaused(true);
   const handleMouseLeave = () => {
@@ -163,9 +163,8 @@ export default function FeaturedProfiles() {
             <Link
               href={`/demo/profile/${profile.id}`}
               key={i}
-              className={`flex flex-col h-[390px] xl:h-[600px] items-center flex-shrink-0 ${
-                profile.align === "end" ? "justify-end" : "justify-start"
-              }`}
+              className={`flex flex-col h-[390px] xl:h-[600px] items-center flex-shrink-0 ${profile.align === "end" ? "justify-end" : "justify-start"
+                }`}
             >
               <TravellerCard profile={profile} />
             </Link>

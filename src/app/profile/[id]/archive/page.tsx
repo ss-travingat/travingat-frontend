@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -182,7 +183,7 @@ export default function ArchivePage() {
                   {item.mime_type?.startsWith('video/') ? (
                     <video src={item.file_url} muted playsInline preload="metadata" className="w-full object-cover" />
                   ) : (
-                    <img src={item.file_url} alt="Archived media" loading="lazy" decoding="async" className="w-full object-cover" />
+                    <Image src={item.file_url} alt="Archived media" loading="lazy" decoding="async" className="w-full object-cover" />
                   )}
                 </Link>
 

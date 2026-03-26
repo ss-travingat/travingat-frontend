@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { setAccessToken } from '@/lib/auth-client';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -38,10 +37,6 @@ export default function VerifyEmailClient() {
           return;
         }
 
-        if (typeof data.access_token === 'string' && data.access_token) {
-          setAccessToken(data.access_token);
-        }
-
         if (typeof data.user_id === 'string' && data.user_id) {
           setVerifiedUserID(data.user_id);
         }
@@ -59,7 +54,6 @@ export default function VerifyEmailClient() {
   useEffect(() => {
     if (status !== 'verified') return;
 
-    setSecondsLeft(5);
     const intervalId = window.setInterval(() => {
       setSecondsLeft((prev) => (prev > 1 ? prev - 1 : 0));
     }, 1000);

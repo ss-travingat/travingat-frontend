@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { apiFetch, clearAccessToken, withAuth } from '@/lib/auth-client';
 import { flags, searchFlagsByName } from '@/lib/flags';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -466,11 +467,11 @@ export default function UserProfilePage() {
   const [countryInput, setCountryInput] = useState('');
   const [selectedCountryCode, setSelectedCountryCode] = useState('');
   const [showCountrySuggestions, setShowCountrySuggestions] = useState(false);
-    const [locationInput, setLocationInput] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState<SelectedLocation | null>(null);
-    const [locationSuggestions, setLocationSuggestions] = useState<OSMSearchItem[]>([]);
-    const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
-    const [isLoadingLocationSuggestions, setIsLoadingLocationSuggestions] = useState(false);
+  const [locationInput, setLocationInput] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation | null>(null);
+  const [locationSuggestions, setLocationSuggestions] = useState<OSMSearchItem[]>([]);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+  const [isLoadingLocationSuggestions, setIsLoadingLocationSuggestions] = useState(false);
   const [aboutText, setAboutText] = useState('');
   const [visitMonth, setVisitMonth] = useState('');
   const [visitYear, setVisitYear] = useState('');
@@ -1319,7 +1320,7 @@ export default function UserProfilePage() {
                 <span className="material-symbols-rounded text-[#e3e3e3] text-[21px]">dehaze</span>
                 <div className="hidden md:block h-7 w-7 overflow-hidden rounded-lg">
                   {profile.avatar_url ? (
-                    <img
+                    <Image
                       src={profile.avatar_url}
                       alt="Profile"
                       loading="eager"
@@ -1389,14 +1390,14 @@ export default function UserProfilePage() {
               <div className="w-full">
                 <div className="h-[200px] mb-[-36px] rounded-[12px] overflow-hidden bg-[#151515]">
                   {profile.cover_image_url ? (
-                    <img src={profile.cover_image_url} alt="Profile cover" className="w-full h-full object-cover" />
+                    <Image src={profile.cover_image_url} alt="Profile cover" className="w-full h-full object-cover" />
                   ) : (
                     <div className="h-full w-full bg-[#1f1f1f]" />
                   )}
                 </div>
                 <div className="relative z-10 mx-auto h-20 w-20 rounded-[16px] border-4 border-black overflow-hidden bg-[#151515]">
                   {profile.avatar_url ? (
-                    <img src={profile.avatar_url} alt="Profile avatar" className="w-full h-full object-cover" />
+                    <Image src={profile.avatar_url} alt="Profile avatar" className="w-full h-full object-cover" />
                   ) : (
                     <div className="h-full w-full bg-[#1f1f1f]" />
                   )}
@@ -1406,7 +1407,7 @@ export default function UserProfilePage() {
               <div className="pt-1 text-center">
                 <div className="flex items-center justify-center gap-1.5 text-[#696969] text-sm">
                   {basedInFlagPath ? (
-                    <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-[15px] h-[10px] rounded-[2px] object-cover" />
+                    <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-[15px] h-[10px] rounded-[2px] object-cover" />
                   ) : null}
                   <span>{basedIn}</span>
                 </div>
@@ -1417,7 +1418,7 @@ export default function UserProfilePage() {
 
             <div className="flex flex-wrap justify-center gap-1">
               {headerFlagPaths.map((path, index) => (
-                <img key={`${path}-${index}`} src={path} alt="Visited country flag" className="h-4 w-6 rounded-[2px] object-cover" />
+                <Image key={`${path}-${index}`} src={path} alt="Visited country flag" className="h-4 w-6 rounded-[2px] object-cover" />
               ))}
             </div>
 
@@ -1445,7 +1446,7 @@ export default function UserProfilePage() {
               <div className="space-y-4">
                 <div className="group relative h-[120px] w-[120px] overflow-hidden rounded-[20px] bg-[#151515]">
                   {profile.avatar_url ? (
-                    <img
+                    <Image
                       src={profile.avatar_url}
                       alt="Profile avatar"
                       loading="eager"
@@ -1469,7 +1470,7 @@ export default function UserProfilePage() {
 
                 <div className="flex items-center gap-2 text-[#989898] text-[16px] md:text-[18px] tracking-[-0.2px] leading-[1.4]">
                   {basedInFlagPath ? (
-                    <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
+                    <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
                   ) : (
                     <span className="inline-block w-6 h-4 rounded-[4px] bg-[#222222]" />
                   )}
@@ -1485,7 +1486,7 @@ export default function UserProfilePage() {
 
               <div className="flex flex-wrap items-center gap-1.5">
                 {headerFlagPaths.map((path, index) => (
-                  <img
+                  <Image
                     key={`${path}-${index}`}
                     src={path}
                     alt="Visited country flag"
@@ -1498,7 +1499,7 @@ export default function UserProfilePage() {
                 <div className="grid grid-cols-3 gap-2 md:gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <img
+                      <Image
                         src={PROFILE_STATS_ICONS.countries}
                         alt="Countries icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1513,7 +1514,7 @@ export default function UserProfilePage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <img
+                      <Image
                         src={PROFILE_STATS_ICONS.allMedia}
                         alt="All media icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1528,7 +1529,7 @@ export default function UserProfilePage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <img
+                      <Image
                         src={PROFILE_STATS_ICONS.collections}
                         alt="Collections icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1556,7 +1557,7 @@ export default function UserProfilePage() {
             <div className="flex flex-row items-end justify-end self-stretch">
               <div className="group relative aspect-[640/662] h-full w-full max-w-[640px] overflow-hidden rounded-[32px] bg-[#111] border border-[#1f1f1f]">
                 {profile.cover_image_url ? (
-                  <img
+                  <Image
                     src={profile.cover_image_url}
                     alt="Profile cover"
                     loading="eager"
@@ -1583,41 +1584,37 @@ export default function UserProfilePage() {
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <button
               onClick={() => setActiveTab('all')}
-              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${
-                activeTab === 'all'
-                  ? 'bg-[#1e1e1e] border border-white text-white font-medium'
-                  : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
-              }`}
+              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${activeTab === 'all'
+                ? 'bg-[#1e1e1e] border border-white text-white font-medium'
+                : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
+                }`}
             >
               All media
             </button>
             <button
               onClick={() => setActiveTab('countries')}
-              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${
-                activeTab === 'countries'
-                  ? 'bg-[#1e1e1e] border border-white text-white font-medium'
-                  : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
-              }`}
+              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${activeTab === 'countries'
+                ? 'bg-[#1e1e1e] border border-white text-white font-medium'
+                : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
+                }`}
             >
               Countries
             </button>
             <button
               onClick={() => setActiveTab('collections')}
-              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${
-                activeTab === 'collections'
-                  ? 'bg-[#1e1e1e] border border-white text-white font-medium'
-                  : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
-              }`}
+              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${activeTab === 'collections'
+                ? 'bg-[#1e1e1e] border border-white text-white font-medium'
+                : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
+                }`}
             >
               Collections
             </button>
             <button
               onClick={() => setActiveTab('about')}
-              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${
-                activeTab === 'about'
-                  ? 'bg-[#1e1e1e] border border-white text-white font-medium'
-                  : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
-              }`}
+              className={`rounded-[999px] px-6 py-2 text-[16px] leading-6 tracking-[-0.096px] transition ${activeTab === 'about'
+                ? 'bg-[#1e1e1e] border border-white text-white font-medium'
+                : 'bg-[#161616] border border-transparent text-[#bdbdbd] font-normal'
+                }`}
             >
               About me
             </button>
@@ -1733,7 +1730,7 @@ export default function UserProfilePage() {
                             </span>
                           </>
                         ) : (
-                          <img
+                          <Image
                             src={getLowQualityMediaURL(item.file_url)}
                             alt="Uploaded media"
                             loading="lazy"
@@ -1802,7 +1799,7 @@ export default function UserProfilePage() {
                       <div className="flex items-center gap-3">
                         {COLLECTIONS_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
                           <div key={src} className="w-[100px] h-[100px] rounded-[10px] overflow-hidden bg-[#151515]">
-                            <img src={src} alt={`Empty media preview ${idx + 1}`} className="w-full h-full object-cover" />
+                            <Image src={src} alt={`Empty media preview ${idx + 1}`} className="w-full h-full object-cover" />
                           </div>
                         ))}
                       </div>
@@ -1858,9 +1855,8 @@ export default function UserProfilePage() {
                                 event.stopPropagation();
                                 setOpenMediaCardMenuID((current) => (current === item.id ? '' : item.id));
                               }}
-                              className={`absolute right-3 top-3 z-10 h-8 w-8 rounded-full border border-[#3c3c3c] bg-[rgba(10,10,10,0.85)] text-white grid place-items-center transition-opacity ${
-                                openMediaCardMenuID === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                              }`}
+                              className={`absolute right-3 top-3 z-10 h-8 w-8 rounded-full border border-[#3c3c3c] bg-[rgba(10,10,10,0.85)] text-white grid place-items-center transition-opacity ${openMediaCardMenuID === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                                }`}
                             >
                               <span className="material-symbols-rounded text-[16px]">more_horiz</span>
                             </button>
@@ -1893,51 +1889,51 @@ export default function UserProfilePage() {
                           onMouseEnter={onMediaCardMouseEnter}
                           onMouseLeave={onMediaCardMouseLeave}
                         >
-                        {!loadedMediaPreviewIDs.has(item.id) ? (
-                          <div className="pointer-events-none absolute inset-0 z-[2] grid place-items-center bg-[rgba(8,8,8,0.45)]">
-                            <div className="media-plane-loader" aria-hidden="true">
-                              <div className="media-plane-loader__ring" />
-                              <div className="media-plane-loader__plane-wrap">
-                                <span className="media-plane-loader__trail" />
-                                <svg className="media-plane-loader__plane" viewBox="0 0 24 24" aria-hidden="true">
-                                  <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5L21 16Z" fill="currentColor" />
-                                </svg>
+                          {!loadedMediaPreviewIDs.has(item.id) ? (
+                            <div className="pointer-events-none absolute inset-0 z-[2] grid place-items-center bg-[rgba(8,8,8,0.45)]">
+                              <div className="media-plane-loader" aria-hidden="true">
+                                <div className="media-plane-loader__ring" />
+                                <div className="media-plane-loader__plane-wrap">
+                                  <span className="media-plane-loader__trail" />
+                                  <svg className="media-plane-loader__plane" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5L21 16Z" fill="currentColor" />
+                                  </svg>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ) : null}
-                        {item.mime_type?.startsWith('video/') ? (
-                          <>
-                            <video
-                              src={item.file_url}
-                              muted
-                              playsInline
-                              preload="metadata"
-                              onLoadedData={() => markMediaPreviewLoaded(item.id)}
+                          ) : null}
+                          {item.mime_type?.startsWith('video/') ? (
+                            <>
+                              <video
+                                src={item.file_url}
+                                muted
+                                playsInline
+                                preload="metadata"
+                                onLoadedData={() => markMediaPreviewLoaded(item.id)}
+                                className="w-full object-cover"
+                              />
+                              <span className="absolute top-3 right-12 h-8 w-8 rounded-full border border-[#3c3c3c] bg-[rgba(10,10,10,0.85)] text-white grid place-items-center">
+                                <span className="material-symbols-rounded text-[18px]">play_arrow</span>
+                              </span>
+                            </>
+                          ) : (
+                            <Image
+                              src={getLowQualityMediaURL(item.file_url)}
+                              alt="Uploaded media"
+                              loading="lazy"
+                              decoding="async"
+                              onLoad={() => markMediaPreviewLoaded(item.id)}
+                              onError={(event) => {
+                                const target = event.currentTarget;
+                                if (target.src !== item.file_url) {
+                                  target.src = item.file_url;
+                                  return;
+                                }
+                                markMediaPreviewLoaded(item.id);
+                              }}
                               className="w-full object-cover"
                             />
-                            <span className="absolute top-3 right-12 h-8 w-8 rounded-full border border-[#3c3c3c] bg-[rgba(10,10,10,0.85)] text-white grid place-items-center">
-                              <span className="material-symbols-rounded text-[18px]">play_arrow</span>
-                            </span>
-                          </>
-                        ) : (
-                          <img
-                            src={getLowQualityMediaURL(item.file_url)}
-                            alt="Uploaded media"
-                            loading="lazy"
-                            decoding="async"
-                            onLoad={() => markMediaPreviewLoaded(item.id)}
-                            onError={(event) => {
-                              const target = event.currentTarget;
-                              if (target.src !== item.file_url) {
-                                target.src = item.file_url;
-                                return;
-                              }
-                              markMediaPreviewLoaded(item.id);
-                            }}
-                            className="w-full object-cover"
-                          />
-                        )}
+                          )}
                         </Link>
                       </div>
                     ))}
@@ -1975,65 +1971,65 @@ export default function UserProfilePage() {
               ) : null}
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-              {countriesForCards.length === 0 ? (
-                <div className="col-span-full rounded-2xl border border-dashed border-[#2b2b2b] bg-[#0e0e0e] p-10 md:p-16">
-                  <div className="max-w-[600px] mx-auto flex flex-col items-center gap-6 text-center">
-                    <div className="flex items-center gap-3">
-                      {COUNTRIES_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
-                        <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                          <img src={src} alt={`Country preview ${idx + 1}`} className="w-full h-full object-cover" />
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-white text-[24px] leading-[1.4] tracking-[-0.41px] font-semibold">Add your first country</h3>
-                      <p className="text-[#a8a8a8] text-[16px] leading-[1.5] tracking-[-0.41px]">
-                        Start with your favorite country - you can add the rest later.
-                      </p>
-                    </div>
-
-                    {isOwner ? (
-                      <button
-                        onClick={openEditor}
-                        className="w-[148px] bg-white text-black rounded-full px-5 py-2.5 text-[14px] font-medium tracking-[-0.408px] hover:bg-gray-200 transition"
-                      >
-                        Add Country
-                      </button>
-                    ) : null}
-                  </div>
-                </div>
-              ) : (
-                countriesForCards.map((code) => {
-                  const mediaForCountry = groupedByCountry.get(code) || [];
-                  const countryMeta = countryMetaByCode[code];
-                  const thumb = mediaForCountry[0];
-                  const flag = flags.find((f) => f.countryCode === code);
-                  const thumbnailURL = countryMeta?.thumbnail_file_url || thumb?.file_url || '';
-                  const countryName = flag?.countryName || code;
-
-                  return (
-                    <Link
-                      key={code}
-                      href={`/profile/${routeUserID}/country/${code.toLowerCase()}`}
-                      className="relative aspect-square rounded-2xl overflow-hidden bg-[#101010] block"
-                    >
-                      <div className="absolute inset-0 bg-[#151515]">
-                        {thumbnailURL ? <img src={thumbnailURL} alt={`${countryName} thumbnail`} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : null}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[70%] to-[rgba(0,0,0,0.5)]" />
+                {countriesForCards.length === 0 ? (
+                  <div className="col-span-full rounded-2xl border border-dashed border-[#2b2b2b] bg-[#0e0e0e] p-10 md:p-16">
+                    <div className="max-w-[600px] mx-auto flex flex-col items-center gap-6 text-center">
+                      <div className="flex items-center gap-3">
+                        {COUNTRIES_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
+                          <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
+                            <Image src={src} alt={`Country preview ${idx + 1}`} className="w-full h-full object-cover" />
+                          </div>
+                        ))}
                       </div>
-                      <div className="relative h-full w-full flex items-end p-3">
-                        <p
-                          title={countryName}
-                          className="text-white text-[24px] font-black leading-none tracking-[-0.408px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)] truncate"
-                        >
-                          {countryName}
+
+                      <div className="space-y-2">
+                        <h3 className="text-white text-[24px] leading-[1.4] tracking-[-0.41px] font-semibold">Add your first country</h3>
+                        <p className="text-[#a8a8a8] text-[16px] leading-[1.5] tracking-[-0.41px]">
+                          Start with your favorite country - you can add the rest later.
                         </p>
                       </div>
-                    </Link>
-                  );
-                })
-              )}
+
+                      {isOwner ? (
+                        <button
+                          onClick={openEditor}
+                          className="w-[148px] bg-white text-black rounded-full px-5 py-2.5 text-[14px] font-medium tracking-[-0.408px] hover:bg-gray-200 transition"
+                        >
+                          Add Country
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : (
+                  countriesForCards.map((code) => {
+                    const mediaForCountry = groupedByCountry.get(code) || [];
+                    const countryMeta = countryMetaByCode[code];
+                    const thumb = mediaForCountry[0];
+                    const flag = flags.find((f) => f.countryCode === code);
+                    const thumbnailURL = countryMeta?.thumbnail_file_url || thumb?.file_url || '';
+                    const countryName = flag?.countryName || code;
+
+                    return (
+                      <Link
+                        key={code}
+                        href={`/profile/${routeUserID}/country/${code.toLowerCase()}`}
+                        className="relative aspect-square rounded-2xl overflow-hidden bg-[#101010] block"
+                      >
+                        <div className="absolute inset-0 bg-[#151515]">
+                          {thumbnailURL ? <Image src={thumbnailURL} alt={`${countryName} thumbnail`} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : null}
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[70%] to-[rgba(0,0,0,0.5)]" />
+                        </div>
+                        <div className="relative h-full w-full flex items-end p-3">
+                          <p
+                            title={countryName}
+                            className="text-white text-[24px] font-black leading-none tracking-[-0.408px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)] truncate"
+                          >
+                            {countryName}
+                          </p>
+                        </div>
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             </section>
           )}
@@ -2057,7 +2053,7 @@ export default function UserProfilePage() {
                     <div className="flex items-center gap-3">
                       {COLLECTIONS_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
                         <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                          <img src={src} alt={`Collection preview ${idx + 1}`} className="w-full h-full object-cover" />
+                          <Image src={src} alt={`Collection preview ${idx + 1}`} className="w-full h-full object-cover" />
                         </div>
                       ))}
                     </div>
@@ -2088,10 +2084,10 @@ export default function UserProfilePage() {
                     const createdLabel = Number.isNaN(createdAt.getTime())
                       ? ''
                       : createdAt.toLocaleDateString('en-GB', {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric',
-                        });
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      });
                     const countryNames = Array.from(
                       new Set(
                         mediaForCollection
@@ -2110,7 +2106,7 @@ export default function UserProfilePage() {
                         className="group block"
                       >
                         <div className="relative aspect-[1.22] rounded-2xl overflow-hidden bg-[#151515] border border-[#1f1f1f]">
-                          {thumbnail ? <img src={thumbnail} alt={collection.title} className="w-full h-full object-cover" /> : null}
+                          {thumbnail ? <Image src={thumbnail} alt={collection.title} className="w-full h-full object-cover" /> : null}
                           <button
                             type="button"
                             aria-label="Collection options"
@@ -2173,7 +2169,7 @@ export default function UserProfilePage() {
                     {aboutPhotos.length > 0 ? (
                       aboutPhotos.map((src, idx) => (
                         <div key={`${src}-${idx}`} className="rounded-xl overflow-hidden border border-[#2b2b2b] bg-[#111] aspect-[1.06]">
-                          <img src={src} alt={`About photo ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <Image src={src} alt={`About photo ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       ))
                     ) : (
@@ -2210,7 +2206,7 @@ export default function UserProfilePage() {
                     <p className="text-[#7c7c7c] text-xs">Home land</p>
                     {homeland ? (
                       <div className="flex items-center gap-2 text-[#f0f0f0] text-sm">
-                        {homelandFlag ? <img src={homelandFlag} alt="Homeland flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
+                        {homelandFlag ? <Image src={homelandFlag} alt="Homeland flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
                         <span>{homeland}</span>
                       </div>
                     ) : (
@@ -2222,7 +2218,7 @@ export default function UserProfilePage() {
                     <p className="text-[#7c7c7c] text-xs">Currently in</p>
                     {currentlyIn ? (
                       <div className="flex items-center gap-2 text-[#f0f0f0] text-sm">
-                        {currentlyInFlag ? <img src={currentlyInFlag} alt="Current location flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
+                        {currentlyInFlag ? <Image src={currentlyInFlag} alt="Current location flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
                         <span>{currentlyIn}</span>
                       </div>
                     ) : (
@@ -2431,7 +2427,7 @@ export default function UserProfilePage() {
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[#1a1a1a] transition"
                     >
-                      <img src={item.path} alt={`${item.countryName} flag`} className="w-5 h-4 rounded-sm object-cover" />
+                      <Image src={item.path} alt={`${item.countryName} flag`} className="w-5 h-4 rounded-sm object-cover" />
                       <span className="text-sm text-white">{item.countryName}</span>
                       <span className="ml-auto text-xs text-[#9d9d9d]">{item.countryCode}</span>
                     </button>
@@ -2478,7 +2474,7 @@ export default function UserProfilePage() {
                                   className="w-full h-auto object-cover"
                                 />
                               ) : (
-                                <img src={item.preview} alt="Pending upload" loading="lazy" decoding="async" className="w-full h-auto object-cover" />
+                                <Image src={item.preview} alt="Pending upload" loading="lazy" decoding="async" className="w-full h-auto object-cover" />
                               )}
                             </button>
                             <button
@@ -2510,7 +2506,7 @@ export default function UserProfilePage() {
                         className="w-12 h-12 rounded-lg object-cover"
                       />
                     ) : (
-                      <img src={selectedUpload.preview} alt="Selected media" className="w-12 h-12 rounded-lg object-cover" />
+                      <Image src={selectedUpload.preview} alt="Selected media" className="w-12 h-12 rounded-lg object-cover" />
                     )
                   ) : (
                     <div className="w-12 h-12 rounded-lg bg-[#1b1b1b]" />

@@ -10,25 +10,25 @@ export async function GET(request: Request) {
   // Get specific flag by country code
   if (countryCode) {
     const flag = flags.find(f => f.countryCode === countryCode.toUpperCase());
-    
+
     if (!flag) {
       return NextResponse.json(
         { error: 'Country code not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json(flag);
   }
 
   // Search flags
   if (search) {
     const query = search.toLowerCase();
-    const results = flags.filter(flag => 
+    const results = flags.filter(flag =>
       flag.countryName.toLowerCase().includes(query) ||
       flag.countryCode.toLowerCase().includes(query)
     );
-    
+
     return NextResponse.json(results);
   }
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     // Validate country code
     const flag = flags.find(f => f.countryCode === countryCode?.toUpperCase());
-    
+
     if (!flag) {
       return NextResponse.json(
         { error: 'Invalid country code' },
@@ -69,6 +69,7 @@ export async function POST(request: Request) {
       profile
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: 'Invalid request' },
       { status: 400 }

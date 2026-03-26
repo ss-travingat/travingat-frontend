@@ -35,16 +35,9 @@ export function useCountrySelection(initialCountry?: string) {
  */
 export function useFlagSearch() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<FlagData[]>([]);
-
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      return;
-    }
-
-    const searchResults = searchFlagsByName(query);
-    setResults(searchResults);
+  const results = useMemo(() => {
+    if (!query.trim()) return [];
+    return searchFlagsByName(query);
   }, [query]);
 
   return {
@@ -110,34 +103,40 @@ export function useFlagAPI(countryCode: string) {
   const [flag, setFlag] = useState<FlagData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const hasCountryCode = Boolean(countryCode);
 
   useEffect(() => {
-    if (!countryCode) {
-      setFlag(null);
-      return;
-    }
+    if (!hasCountryCode) return;
 
-    setLoading(true);
-    setError(null);
+    const loadFlag = () => {
+      setLoading(true);
+      setError(null);
 
-    fetch(`/api/flags?code=${countryCode}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          setError(data.error);
+      fetch(`/api/flags?code=${countryCode}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            setError(data.error);
+            setFlag(null);
+          } else {
+            setFlag(data);
+          }
+        })
+        .catch(err => {
+          setError(err.message);
           setFlag(null);
-        } else {
-          setFlag(data);
-        }
-      })
-      .catch(err => {
-        setError(err.message);
-        setFlag(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [countryCode]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
 
-  return { flag, loading, error };
+    loadFlag();
+  }, [countryCode, hasCountryCode]);
+
+  return {
+    flag: hasCountryCode ? flag : null,
+    loading: hasCountryCode ? loading : false,
+    error: hasCountryCode ? error : null,
+  };
 }

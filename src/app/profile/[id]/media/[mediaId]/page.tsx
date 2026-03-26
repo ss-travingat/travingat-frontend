@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { flags } from '@/lib/flags';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -211,140 +212,139 @@ export default function MediaViewerPage() {
             <div className="flex h-full flex-col gap-4">
               <div className="flex min-w-0 items-center justify-between gap-3 text-sm text-[#9f9f9f]">
                 <div className="flex min-w-0 items-center gap-2">
-                <Link href={backHref} className="rounded-full border border-[#2f2f2f] bg-[#121212] px-3 py-1.5 text-xs text-[#dfdfdf] hover:bg-[#1a1a1a]">
-                  Back
-                </Link>
-                <span className="text-[#4d4d4d]">|</span>
-                <span>{currentIndex + 1} of {scopedMedia.length}</span>
-              </div>
-              <span className="truncate text-right">{source === 'collection' ? 'Collection carousel' : 'Country carousel'}</span>
-            </div>
-
-            <div className="relative min-h-[420px] flex-1 rounded-3xl border border-[#242424] bg-[#080808] lg:min-h-0">
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-3xl">
-                {currentMedia.mime_type.startsWith('video/') ? (
-                  <video src={currentMedia.file_url} controls autoPlay className="max-h-full w-auto max-w-full object-contain" />
-                ) : (
-                  <img src={currentMedia.file_url} alt="Media" className="max-h-full w-auto max-w-full object-contain" />
-                )}
+                  <Link href={backHref} className="rounded-full border border-[#2f2f2f] bg-[#121212] px-3 py-1.5 text-xs text-[#dfdfdf] hover:bg-[#1a1a1a]">
+                    Back
+                  </Link>
+                  <span className="text-[#4d4d4d]">|</span>
+                  <span>{currentIndex + 1} of {scopedMedia.length}</span>
+                </div>
+                <span className="truncate text-right">{source === 'collection' ? 'Collection carousel' : 'Country carousel'}</span>
               </div>
 
-              {prevMedia ? (
-                <Link
-                  href={prevHref}
-                  className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#3a3a3a] bg-black/65 text-white hover:bg-black"
-                  aria-label="Previous media"
-                >
-                  <span className="material-symbols-rounded text-[19px]">arrow_back_ios_new</span>
-                </Link>
-              ) : null}
+              <div className="relative min-h-[420px] flex-1 rounded-3xl border border-[#242424] bg-[#080808] lg:min-h-0">
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-3xl">
+                  {currentMedia.mime_type.startsWith('video/') ? (
+                    <video src={currentMedia.file_url} controls autoPlay className="max-h-full w-auto max-w-full object-contain" />
+                  ) : (
+                    <Image src={currentMedia.file_url} alt="Media" className="max-h-full w-auto max-w-full object-contain" />
+                  )}
+                </div>
 
-              {nextMedia ? (
-                <Link
-                  href={nextHref}
-                  className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#3a3a3a] bg-black/65 text-white hover:bg-black"
-                  aria-label="Next media"
-                >
-                  <span className="material-symbols-rounded text-[19px]">arrow_forward_ios</span>
-                </Link>
-              ) : null}
-            </div>
+                {prevMedia ? (
+                  <Link
+                    href={prevHref}
+                    className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#3a3a3a] bg-black/65 text-white hover:bg-black"
+                    aria-label="Previous media"
+                  >
+                    <span className="material-symbols-rounded text-[19px]">arrow_back_ios_new</span>
+                  </Link>
+                ) : null}
 
-            {scopedMedia.length > 1 ? (
-              <div className="-mx-1 max-w-full overflow-x-auto pb-1">
-                <div className="flex min-w-max items-center gap-2 px-1">
-                  {scopedMedia.map((item, idx) => {
-                    const isActive = item.id === currentMedia.id;
-                    return (
-                      <Link
-                        key={item.id}
-                        href={buildMediaHref(item.id)}
-                        className={`group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border transition md:h-20 md:w-20 ${
-                          isActive ? 'border-white/90 ring-1 ring-white/40' : 'border-[#2a2a2a] hover:border-[#666]'
-                        }`}
-                        aria-label={`Open media ${idx + 1}`}
-                      >
-                        {item.mime_type.startsWith('video/') ? (
-                          <video src={`${item.file_url}#t=0.1`} muted preload="metadata" className="h-full w-full object-cover" />
-                        ) : (
-                          <img src={item.file_url} alt="Media thumbnail" className="h-full w-full object-cover" />
-                        )}
-                        <span className="absolute inset-x-0 bottom-0 bg-black/65 px-1 py-[2px] text-center text-[10px] text-white">
-                          {idx + 1}
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </section>
-
-          <aside className="w-full min-w-0 rounded-2xl border border-[#2a2a2a] bg-[#111] p-6 sm:p-8 lg:h-full lg:min-h-0 lg:overflow-y-auto">
-          <div className="space-y-6">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 overflow-hidden rounded-xl bg-[#1e1e1e]">
-                  {profile.avatar_url ? <img src={profile.avatar_url} alt={profileName} className="h-full w-full object-cover" /> : null}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-[#bcbcbc]">@{profile.username || profileName}</p>
-                  <div className="flex items-center gap-2 text-sm text-[#9d9d9d]">
-                    {currentCountry ? (
-                      <img src={currentCountry.path} alt={`${currentCountryName} flag`} className="h-4 w-6 rounded-sm object-cover" />
-                    ) : null}
-                    <span>{currentCountryName}</span>
-                  </div>
-                </div>
-              </div>
-              <Link href={backHref} className="text-[#a7a7a7] hover:text-white" aria-label="Close viewer">
-                <span className="material-symbols-rounded">close</span>
-              </Link>
-            </div>
-
-            <div className="rounded-xl border border-[#252525] bg-[#171717] p-4">
-              <p className="text-xs uppercase tracking-[0.08em] text-[#7d7d7d]">Media details</p>
-              <div className="mt-3 space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#a9a9a9]">Position</span>
-                  <span className="font-medium text-[#efefef]">{currentIndex + 1}/{scopedMedia.length}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#a9a9a9]">Uploaded</span>
-                  <span className="font-medium text-[#efefef]">{lastUpdated || 'Recently'}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#a9a9a9]">Type</span>
-                  <span className="font-medium text-[#efefef]">{currentMedia.mime_type.startsWith('video/') ? 'Video' : 'Photo'}</span>
-                </div>
-                {currentMedia.mime_type.startsWith('video/') ? (
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#a9a9a9]">Views</span>
-                    <span className="font-medium text-[#efefef]">{videoViews}</span>
-                  </div>
+                {nextMedia ? (
+                  <Link
+                    href={nextHref}
+                    className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#3a3a3a] bg-black/65 text-white hover:bg-black"
+                    aria-label="Next media"
+                  >
+                    <span className="material-symbols-rounded text-[19px]">arrow_forward_ios</span>
+                  </Link>
                 ) : null}
               </div>
-            </div>
 
-            <div className="space-y-2 border-t border-[#242424] pt-6">
-              <p className="text-base font-medium text-white">{source === 'collection' ? 'Collection context' : currentCountryName}</p>
-              <p className="text-sm text-[#8f8f8f]">
-                {source === 'collection'
-                  ? 'Viewing media from this collection sequence.'
-                  : countryDescription || 'No country description added yet.'}
-              </p>
+              {scopedMedia.length > 1 ? (
+                <div className="-mx-1 max-w-full overflow-x-auto pb-1">
+                  <div className="flex min-w-max items-center gap-2 px-1">
+                    {scopedMedia.map((item, idx) => {
+                      const isActive = item.id === currentMedia.id;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={buildMediaHref(item.id)}
+                          className={`group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border transition md:h-20 md:w-20 ${isActive ? 'border-white/90 ring-1 ring-white/40' : 'border-[#2a2a2a] hover:border-[#666]'
+                            }`}
+                          aria-label={`Open media ${idx + 1}`}
+                        >
+                          {item.mime_type.startsWith('video/') ? (
+                            <video src={`${item.file_url}#t=0.1`} muted preload="metadata" className="h-full w-full object-cover" />
+                          ) : (
+                            <Image src={item.file_url} alt="Media thumbnail" className="h-full w-full object-cover" />
+                          )}
+                          <span className="absolute inset-x-0 bottom-0 bg-black/65 px-1 py-[2px] text-center text-[10px] text-white">
+                            {idx + 1}
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
             </div>
+          </section>
 
-            <div className="space-y-2 border-t border-[#242424] pt-6">
-              <p className="text-base font-medium text-white">Caption</p>
-              <p className="whitespace-pre-line text-sm text-[#a0a0a0]">
-                {currentMedia.caption?.trim() || 'No caption added for this media.'}
-              </p>
-              {currentMedia.location_name ? <p className="text-xs text-[#7a7a7a]">Location: {currentMedia.location_name}</p> : null}
+          <aside className="w-full min-w-0 rounded-2xl border border-[#2a2a2a] bg-[#111] p-6 sm:p-8 lg:h-full lg:min-h-0 lg:overflow-y-auto">
+            <div className="space-y-6">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 overflow-hidden rounded-xl bg-[#1e1e1e]">
+                    {profile.avatar_url ? <Image src={profile.avatar_url} alt={profileName} className="h-full w-full object-cover" /> : null}
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm text-[#bcbcbc]">@{profile.username || profileName}</p>
+                    <div className="flex items-center gap-2 text-sm text-[#9d9d9d]">
+                      {currentCountry ? (
+                        <Image src={currentCountry.path} alt={`${currentCountryName} flag`} className="h-4 w-6 rounded-sm object-cover" />
+                      ) : null}
+                      <span>{currentCountryName}</span>
+                    </div>
+                  </div>
+                </div>
+                <Link href={backHref} className="text-[#a7a7a7] hover:text-white" aria-label="Close viewer">
+                  <span className="material-symbols-rounded">close</span>
+                </Link>
+              </div>
+
+              <div className="rounded-xl border border-[#252525] bg-[#171717] p-4">
+                <p className="text-xs uppercase tracking-[0.08em] text-[#7d7d7d]">Media details</p>
+                <div className="mt-3 space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#a9a9a9]">Position</span>
+                    <span className="font-medium text-[#efefef]">{currentIndex + 1}/{scopedMedia.length}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#a9a9a9]">Uploaded</span>
+                    <span className="font-medium text-[#efefef]">{lastUpdated || 'Recently'}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#a9a9a9]">Type</span>
+                    <span className="font-medium text-[#efefef]">{currentMedia.mime_type.startsWith('video/') ? 'Video' : 'Photo'}</span>
+                  </div>
+                  {currentMedia.mime_type.startsWith('video/') ? (
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#a9a9a9]">Views</span>
+                      <span className="font-medium text-[#efefef]">{videoViews}</span>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="space-y-2 border-t border-[#242424] pt-6">
+                <p className="text-base font-medium text-white">{source === 'collection' ? 'Collection context' : currentCountryName}</p>
+                <p className="text-sm text-[#8f8f8f]">
+                  {source === 'collection'
+                    ? 'Viewing media from this collection sequence.'
+                    : countryDescription || 'No country description added yet.'}
+                </p>
+              </div>
+
+              <div className="space-y-2 border-t border-[#242424] pt-6">
+                <p className="text-base font-medium text-white">Caption</p>
+                <p className="whitespace-pre-line text-sm text-[#a0a0a0]">
+                  {currentMedia.caption?.trim() || 'No caption added for this media.'}
+                </p>
+                {currentMedia.location_name ? <p className="text-xs text-[#7a7a7a]">Location: {currentMedia.location_name}</p> : null}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
         </div>
       </div>
     </div>

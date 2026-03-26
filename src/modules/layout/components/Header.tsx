@@ -29,9 +29,9 @@ export default function Header({ variant = "app" }: HeaderProps) {
             <Link href="/signin" className="rounded-full border border-[#2a2a2a] px-4 py-2 text-sm text-[#d8d8d8] hover:text-white hover:border-[#444] transition">
               Already traveler? Sign in
             </Link>
-            <a href={onboardingUrl} className="rounded-full bg-white px-4 py-2 text-sm font-medium text-black hover:bg-[#ececec] transition">
+            <Link href={onboardingUrl} className="rounded-full bg-white px-4 py-2 text-sm font-medium text-black hover:bg-[#ececec] transition">
               Join now
-            </a>
+            </Link>
             <button
               onClick={() => setMenuOpen((prev) => !prev)}
               className="md:hidden flex items-center justify-center rounded-xl border border-[#1e1e1e] bg-[#0b0b0b] p-2"
@@ -50,7 +50,7 @@ export default function Header({ variant = "app" }: HeaderProps) {
               <a href="#pricing" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Pricing</a>
               <a href="#blog" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Blog</a>
               <Link href="/signin" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Already traveler? Sign in</Link>
-              <a href={onboardingUrl} onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Join now</a>
+              <Link href={onboardingUrl} onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Join now</Link>
             </div>
           </nav>
         )}
@@ -82,8 +82,8 @@ export default function Header({ variant = "app" }: HeaderProps) {
       {menuOpen && (
         <nav className="mx-auto w-full max-w-[1488px] px-5 md:px-12 xl:px-24 pb-5">
           <div className="max-w-[260px] ml-auto rounded-2xl border border-[#252525] bg-[#101010] p-2 shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
-            <a href="/profile" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Profile</a>
-            <a href="/signin" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Sign in</a>
+            <Link href="/profile" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Profile</Link>
+            <Link href="/signin" onClick={() => setMenuOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-[#d8d8d8] hover:bg-[#1b1b1b]">Sign in</Link>
           </div>
         </nav>
       )}

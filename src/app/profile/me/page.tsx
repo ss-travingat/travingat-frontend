@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { flags } from '@/lib/flags';
 import { apiFetch } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -56,6 +57,14 @@ export default function MyProfilePage() {
     load();
   }, []);
 
+  const basedInFlagPath = useMemo(() => {
+    if (!profile?.based_in) return null;
+    const match = flags.find(
+      (flag) => flag.countryName.toLowerCase() === profile.based_in.toLowerCase()
+    );
+    return match?.path || null;
+  }, [profile?.based_in]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black text-white grid place-items-center px-6">
@@ -94,14 +103,6 @@ export default function MyProfilePage() {
   const handle = profile.username ? `@${profile.username}` : '@username';
   const hasEmptyState = countries === 0;
 
-  const basedInFlagPath = useMemo(() => {
-    if (!profile.based_in) return null;
-    const match = flags.find(
-      (flag) => flag.countryName.toLowerCase() === profile.based_in.toLowerCase()
-    );
-    return match?.path || null;
-  }, [profile.based_in]);
-
   return (
     <div className="min-h-screen bg-black text-white px-5 md:px-12 lg:px-20 py-10">
       <div className="max-w-6xl mx-auto grid gap-10">
@@ -120,7 +121,7 @@ export default function MyProfilePage() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-[#989898] text-[18px] tracking-[-0.2px] leading-[26px]">
               {basedInFlagPath ? (
-                <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
+                <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
               ) : (
                 <span className="inline-block w-6 h-4 rounded-[4px] bg-[#222222]" />
               )}
@@ -199,7 +200,7 @@ export default function MyProfilePage() {
                 <div className="flex items-center gap-3">
                   {COUNTRIES_EMPTY_PREVIEW_IMAGES.map((src, index) => (
                     <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                      <img src={src} alt={`Travel sample ${index + 1}`} className="w-full h-full object-cover" />
+                      <Image src={src} alt={`Travel sample ${index + 1}`} className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>

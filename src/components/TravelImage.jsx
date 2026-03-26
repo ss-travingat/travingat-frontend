@@ -16,7 +16,7 @@ export function TravelImage({
   const [errored, setErrored] = useState(false);
 
   if (src?.startsWith('blob:')) {
-    return <img src={src} alt={alt} className={`transition-opacity duration-300 ${className}`} />;
+    return <Image src={src} alt={alt} className={`transition-opacity duration-300 ${className}`} />;
   }
 
   if (errored || !src) {

@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from 're
 import { useParams, useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
 import { flags } from '@/lib/flags';
+import Image from 'next/image';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -41,7 +42,7 @@ type UploadedMedia = {
 };
 
 type ModalKey =
-	| 'username'
+  | 'username'
   | 'display_name'
   | 'based_in'
   | 'about'
@@ -452,20 +453,20 @@ export default function EditProfileByIDPage() {
 
   const onProfileAssetSelect =
     (target: 'avatar_url' | 'cover_image_url') =>
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      setSaving(true);
-      setError('');
-      try {
-        await uploadProfileAsset(file, target);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Upload failed');
-      } finally {
-        setSaving(false);
-        e.target.value = '';
-      }
-    };
+      async (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setSaving(true);
+        setError('');
+        try {
+          await uploadProfileAsset(file, target);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Upload failed');
+        } finally {
+          setSaving(false);
+          e.target.value = '';
+        }
+      };
 
   const onPhotosSelect = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -706,7 +707,7 @@ export default function EditProfileByIDPage() {
             <aside className="w-full xl:w-[360px] bg-[#0e0e0e] border-2 border-[#1a1a1a] rounded-[20px] p-8 space-y-8">
               <div className="relative w-[120px] h-[120px] rounded-[20px] overflow-hidden">
                 {form.avatar_url ? (
-                  <img
+                  <Image
                     src={form.avatar_url}
                     alt="Profile avatar"
                     loading="eager"
@@ -768,11 +769,11 @@ export default function EditProfileByIDPage() {
                 <div className="space-y-3">
                   <p className="text-[#757575] text-[14px]">Hero Photo</p>
                   <div className="relative rounded-[20px] overflow-hidden aspect-square">
-                      {form.cover_image_url ? (
-                        <img src={form.cover_image_url} alt="Hero" loading="eager" decoding="async" className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-[#1f1f1f]" />
-                      )}
+                    {form.cover_image_url ? (
+                      <Image src={form.cover_image_url} alt="Hero" loading="eager" decoding="async" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-[#1f1f1f]" />
+                    )}
                     <button
                       type="button"
                       onClick={() => heroInputRef.current?.click()}
@@ -814,7 +815,7 @@ export default function EditProfileByIDPage() {
                       className="aspect-square bg-[#1a1a1a] border border-[#252525] rounded-[12px] overflow-hidden flex items-center justify-center"
                     >
                       {photo ? (
-                        <img src={photo} alt={`Photo slot ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                        <Image src={photo} alt={`Photo slot ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-[#656565] text-sm">Add Photo</span>
                       )}
@@ -1018,7 +1019,7 @@ export default function EditProfileByIDPage() {
                     className="w-full aspect-square rounded-2xl border border-[#2a2a2a] bg-[#141414] overflow-hidden flex items-center justify-center disabled:opacity-60"
                   >
                     {photo ? (
-                      <img src={photo} alt={`Photo ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                      <Image src={photo} alt={`Photo ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-[#7a7a7a]">Add Photo {index + 1}</span>
                     )}
@@ -1134,7 +1135,7 @@ export default function EditProfileByIDPage() {
                   }}
                   className="w-full py-4 border-b border-[#2a2a2a] flex items-center justify-between text-left"
                 >
-                  <span className="text-white text-[22px]text-lg">Add "{normalizedLanguageSearch}"</span>
+                  <span className="text-white text-[22px]text-lg">Add &quot;{normalizedLanguageSearch}&quot;</span>
                   <span className="w-7 h-7 rounded-lg border border-[#4a4a4a] inline-flex items-center justify-center text-[#d7d7d7]">+</span>
                 </button>
               ) : null}
