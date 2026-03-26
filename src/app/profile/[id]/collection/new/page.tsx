@@ -148,27 +148,6 @@ function resolveCountryCode(basedIn?: string) {
   return 'US';
 }
 
-async function requestUploadURL(file: File, countryCode: string, collectionID: string) {
-  const res = await apiFetchViaProxy('/api/media/upload-url', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      file_name: file.name,
-      mime_type: file.type,
-      size_bytes: file.size,
-      country_code: countryCode,
-      collection_id: collectionID,
-    }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to create upload URL');
-  }
-
-  return data as { upload_url: string; object_key: string; file_url: string };
-}
-
 async function uploadViaBackend(file: File, countryCode: string, collectionID: string) {
   const formData = new FormData();
   formData.append('file', file);
@@ -185,82 +164,6 @@ async function uploadViaBackend(file: File, countryCode: string, collectionID: s
   if (!res.ok) {
     throw new Error(data.error || 'Server upload fallback failed');
   }
-}
-
-function uploadToR2WithProgress(
-  uploadURL: string,
-  file: File,
-  onProgress: (loaded: number, total: number) => void
-) {
-  return new Promise<void>((resolve, reject) => {
-    let settled = false;
-
-    const finalize = (fn: () => void) => {
-      if (settled) return;
-      settled = true;
-      fn();
-    };
-
-    const uploadWithFetchFallback = async () => {
-      try {
-        const res = await fetch(uploadURL, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': file.type || 'application/octet-stream',
-            'Cache-Control': 'public, max-age=31536000, immutable',
-          },
-          body: file,
-        });
-
-        if (!res.ok) {
-          throw new Error(`R2 upload failed with status ${res.status}`);
-        }
-
-        onProgress(file.size, file.size);
-        finalize(resolve);
-      } catch (err) {
-        finalize(() => {
-          reject(err instanceof Error ? err : new Error('Network error while uploading to R2'));
-        });
-      }
-    };
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', uploadURL);
-    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-    xhr.setRequestHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    xhr.timeout = 120000;
-
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        onProgress(event.loaded, event.total);
-      }
-    };
-
-    xhr.onerror = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.ontimeout = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.onabort = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        onProgress(file.size, file.size);
-        finalize(resolve);
-        return;
-      }
-
-      uploadWithFetchFallback();
-    };
-
-    xhr.send(file);
-  });
 }
 
 export default function NewCollectionPage() {

@@ -354,7 +354,7 @@ export default function EditProfileByIDPage() {
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [languagesDraft, setLanguagesDraft] = useState<string[]>([]);
   const [socialDraft, setSocialDraft] = useState<SocialLinks>(EMPTY_SOCIAL_LINKS);
-  const [customTagDraft, setCustomTagDraft] = useState('');
+  const [, setCustomTagDraft] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
   const [homelandSearch, setHomelandSearch] = useState('');
   const [currentlyInSearch, setCurrentlyInSearch] = useState('');

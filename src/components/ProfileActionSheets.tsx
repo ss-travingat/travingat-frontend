@@ -75,9 +75,6 @@ export function ShareSheet({
 
   if (!open) return null;
 
-  const shareLabel =
-    variant === 'country' ? 'Share country' : variant === 'collection' ? 'Share collection' : 'Share moment';
-
   const openShareWindow = (url: string) => {
     if (!url) {
       navigator.clipboard.writeText(shareUrl).catch(() => undefined);

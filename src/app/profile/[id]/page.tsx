@@ -228,26 +228,6 @@ function resolveUploadMimeType(file: File) {
   return 'application/octet-stream';
 }
 
-async function requestUploadURL(file: File, countryCode: string) {
-  const mimeType = resolveUploadMimeType(file);
-  const res = await apiFetchWithBaseFallback('/api/media/upload-url', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      file_name: file.name,
-      mime_type: mimeType,
-      size_bytes: file.size,
-      country_code: countryCode,
-    }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to create upload URL');
-  }
-  return data as { upload_url: string; object_key: string; file_url: string };
-}
-
 async function uploadViaBackend(file: File, countryCode: string, location: SelectedLocation | null, caption = '') {
   const formData = new FormData();
   formData.append('file', file);
@@ -270,84 +250,6 @@ async function uploadViaBackend(file: File, countryCode: string, location: Selec
   }
 
   return data as MediaItem;
-}
-
-function uploadToR2WithProgress(
-  uploadURL: string,
-  file: File,
-  onProgress: (loaded: number, total: number) => void
-) {
-  const mimeType = resolveUploadMimeType(file);
-
-  return new Promise<void>((resolve, reject) => {
-    let settled = false;
-
-    const finalize = (fn: () => void) => {
-      if (settled) return;
-      settled = true;
-      fn();
-    };
-
-    const uploadWithFetchFallback = async () => {
-      try {
-        const res = await fetch(uploadURL, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': mimeType,
-            'Cache-Control': 'public, max-age=31536000, immutable',
-          },
-          body: file,
-        });
-
-        if (!res.ok) {
-          throw new Error(`R2 upload failed with status ${res.status}`);
-        }
-
-        onProgress(file.size, file.size);
-        finalize(resolve);
-      } catch (err) {
-        finalize(() => {
-          reject(err instanceof Error ? err : new Error('Network error while uploading to R2'));
-        });
-      }
-    };
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', uploadURL);
-    xhr.setRequestHeader('Content-Type', mimeType);
-    xhr.setRequestHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    xhr.timeout = 120000;
-
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        onProgress(event.loaded, event.total);
-      }
-    };
-
-    xhr.onerror = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.ontimeout = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.onabort = () => {
-      uploadWithFetchFallback();
-    };
-
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        onProgress(file.size, file.size);
-        finalize(resolve);
-        return;
-      }
-
-      uploadWithFetchFallback();
-    };
-
-    xhr.send(file);
-  });
 }
 
 function waitForPageLoad(timeoutMs = PAGE_LOAD_WAIT_TIMEOUT_MS) {
@@ -480,7 +382,7 @@ export default function UserProfilePage() {
   const [selectedUploadID, setSelectedUploadID] = useState('');
   const [savingCountry, setSavingCountry] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadMessage, setUploadMessage] = useState('');
+  const [, setUploadMessage] = useState('');
   const [uploadQuoteIndex, setUploadQuoteIndex] = useState(0);
   const [editorError, setEditorError] = useState('');
   const [uploadingProfileAsset, setUploadingProfileAsset] = useState<'avatar' | 'cover' | null>(null);
@@ -553,11 +455,12 @@ export default function UserProfilePage() {
   };
 
   useEffect(() => {
+    const timers = videoPreviewTimersRef.current;
     return () => {
-      for (const timeoutID of videoPreviewTimersRef.current.values()) {
+      for (const timeoutID of timers.values()) {
         window.clearTimeout(timeoutID);
       }
-      videoPreviewTimersRef.current.clear();
+      timers.clear();
     };
   }, []);
 
@@ -761,6 +664,8 @@ export default function UserProfilePage() {
   const isUUIDLike = (value: string) =>
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 
+  // routeUserID is the trigger; the called loaders are intentionally recreated with state.
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const load = async () => {
       try {
@@ -823,6 +728,7 @@ export default function UserProfilePage() {
 
     load();
   }, [routeUserID]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const isOwner = sessionRole === 'owner';
 

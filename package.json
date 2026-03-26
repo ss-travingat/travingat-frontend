@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint --max-warnings=0",
     "export-flags": "node scripts/fetch-flags-batch.js",
     "setup-flags": "./scripts/setup-flags.sh"
   },
