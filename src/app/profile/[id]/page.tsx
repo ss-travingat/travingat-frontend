@@ -373,9 +373,10 @@ function waitForPageLoad(timeoutMs = PAGE_LOAD_WAIT_TIMEOUT_MS) {
 function preloadImageAsset(url: string, timeoutMs = PAGE_ASSET_PRELOAD_TIMEOUT_MS) {
   const normalized = (url || '').trim();
   if (!normalized) return Promise.resolve();
+  if (typeof window === 'undefined') return Promise.resolve();
 
   return new Promise<void>((resolve) => {
-    const img = new Image();
+    const img = new window.Image();
     let done = false;
 
     const finish = () => {
