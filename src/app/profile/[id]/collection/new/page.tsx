@@ -3,79 +3,9 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { apiFetch } from '@/lib/auth-client';
+ import { apiFetchWithFallback } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-
-function resolveApiBaseCandidates() {
-  const candidates = new Set<string>();
-  candidates.add(API_URL);
-  candidates.add('http://localhost:8080');
-  candidates.add('http://127.0.0.1:8080');
-
-  if (typeof window !== 'undefined') {
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    const hostname = window.location.hostname;
-    if (hostname) {
-      candidates.add(`${protocol}//${hostname}:8080`);
-    }
-  }
-
-  return Array.from(candidates).filter(Boolean);
-}
-
-async function apiFetchViaProxy(path: string, init: RequestInit = {}) {
-  const isFormDataBody = typeof FormData !== 'undefined' && init.body instanceof FormData;
-  if (isFormDataBody) {
-    try {
-      const proxyRes = await apiFetch(`/api/proxy${path}`, init);
-      if (proxyRes.status !== 502 && proxyRes.status !== 413) {
-        return proxyRes;
-      }
-    } catch {
-      // Fall back to direct backend bases below.
-    }
-
-    let lastErr: unknown = null;
-    for (const base of resolveApiBaseCandidates()) {
-      try {
-        return await apiFetch(`${base}${path}`, init);
-      } catch (err) {
-        lastErr = err;
-      }
-    }
-
-    if (lastErr instanceof Error) {
-      throw lastErr;
-    }
-    throw new TypeError('Failed to fetch');
-  }
-
-  try {
-    const proxyRes = await apiFetch(`/api/proxy${path}`, init);
-    if (proxyRes.status !== 502 && proxyRes.status !== 413) {
-      return proxyRes;
-    }
-  } catch {
-    // Fallback to direct backend below.
-  }
-
-  let lastErr: unknown = null;
-  for (const base of resolveApiBaseCandidates()) {
-    try {
-      return await apiFetch(`${base}${path}`, init);
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-
-  if (lastErr instanceof Error) {
-    throw lastErr;
-  }
-  throw new TypeError('Failed to fetch');
-}
 
 const UPLOAD_QUOTES = [
   'Preserving your memories...',
@@ -155,7 +85,7 @@ async function uploadViaBackend(file: File, countryCode: string, collectionID: s
   formData.append('caption', '');
   formData.append('collection_id', collectionID);
 
-  const res = await apiFetchViaProxy('/api/media/upload', {
+  const res = await apiFetchWithFallback('/api/media/upload', {
     method: 'POST',
     body: formData,
   });
@@ -193,7 +123,7 @@ export default function NewCollectionPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const meRes = await apiFetchViaProxy('/api/auth/me');
+        const meRes = await apiFetchWithFallback('/api/auth/me');
         if (!meRes.ok) {
           setError('Please sign in to create a collection.');
           return;
@@ -206,8 +136,8 @@ export default function NewCollectionPage() {
         }
 
         const [profileRes, mediaRes] = await Promise.all([
-          apiFetchViaProxy('/api/profile/me'),
-          apiFetchViaProxy('/api/media'),
+          apiFetchWithFallback('/api/profile/me'),
+          apiFetchWithFallback('/api/media'),
         ]);
 
         const profileData: ProfileResponse = await profileRes.json();
@@ -356,7 +286,7 @@ export default function NewCollectionPage() {
     setUploadMessage('Preparing upload...');
 
     try {
-      const createRes = await apiFetchViaProxy('/api/collections', {
+      const createRes = await apiFetchWithFallback('/api/collections', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -372,7 +302,7 @@ export default function NewCollectionPage() {
       }
 
       for (const mediaID of selectedMediaIDs) {
-        const attachRes = await apiFetchViaProxy(`/api/collections/${createData.id}/media`, {
+        const attachRes = await apiFetchWithFallback(`/api/collections/${createData.id}/media`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ media_id: mediaID }),

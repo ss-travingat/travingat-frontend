@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Footer } from '@/modules/layout';
 import { apiFetch } from '@/lib/auth-client';
+import { API_URL } from '@/lib/api-client';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 const travelImages = [
   'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=200&h=250&fit=crop',

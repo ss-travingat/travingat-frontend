@@ -3,10 +3,9 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
+import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 type Profile = {
   user_id: string;

@@ -4,11 +4,10 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
+import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
 import { ReportSheet, ShareSheet, ShareVariant } from '@/components/ProfileActionSheets';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 type MeResponse = {
   user_id: string;

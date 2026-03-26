@@ -4,9 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { flags } from '@/lib/flags';
 import { apiFetch } from '@/lib/auth-client';
+import { API_URL } from '@/lib/api-client';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 const COUNTRIES_EMPTY_PREVIEW_IMAGES = [
   'https://www.figma.com/api/mcp/asset/ce0e8660-fd4e-4e06-ba46-215fafae0a09',

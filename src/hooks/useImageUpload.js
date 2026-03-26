@@ -3,8 +3,7 @@
 import { useState, useCallback } from 'react';
 import { compressImage } from '@/lib/compressImage';
 import { apiFetch } from '@/lib/auth-client';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+import { API_URL } from '@/lib/api-client';
 
 function normalizeCountryCode(country) {
   if (!country) return 'US';

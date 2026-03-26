@@ -3,84 +3,10 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { apiFetch, clearAccessToken, withAuth } from '@/lib/auth-client';
+import { apiFetch, clearAccessToken } from '@/lib/auth-client';
+import { API_URL, apiFetchWithFallback } from '@/lib/api-client';
 import { flags, searchFlagsByName } from '@/lib/flags';
 import Image from 'next/image';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-
-function resolveApiBaseCandidates() {
-  const candidates = new Set<string>();
-  candidates.add(API_URL);
-  candidates.add('http://localhost:8080');
-  candidates.add('http://127.0.0.1:8080');
-
-  if (typeof window !== 'undefined') {
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    const hostname = window.location.hostname;
-    if (hostname) {
-      candidates.add(`${protocol}//${hostname}:8080`);
-    }
-  }
-
-  return Array.from(candidates).filter(Boolean);
-}
-
-async function apiFetchWithBaseFallback(path: string, init: RequestInit = {}) {
-  const isFormDataBody = typeof FormData !== 'undefined' && init.body instanceof FormData;
-
-  if (isFormDataBody) {
-    try {
-      const proxyRes = await fetch(`/api/proxy${path}`, withAuth(init));
-      if (proxyRes.status !== 502 && proxyRes.status !== 413) {
-        return proxyRes;
-      }
-    } catch {
-      // Fall back to direct backend bases below.
-    }
-
-    const bases = resolveApiBaseCandidates();
-    let lastErr: unknown = null;
-
-    for (const base of bases) {
-      try {
-        return await fetch(`${base}${path}`, withAuth(init));
-      } catch (err) {
-        lastErr = err;
-      }
-    }
-
-    if (lastErr instanceof Error) {
-      throw lastErr;
-    }
-    throw new TypeError('Failed to fetch');
-  }
-
-  try {
-    const proxyRes = await fetch(`/api/proxy${path}`, withAuth(init));
-    if (proxyRes.status !== 502 && proxyRes.status !== 413) {
-      return proxyRes;
-    }
-  } catch {
-    // Fallback to direct backend bases below.
-  }
-
-  const bases = resolveApiBaseCandidates();
-  let lastErr: unknown = null;
-
-  for (const base of bases) {
-    try {
-      return await fetch(`${base}${path}`, withAuth(init));
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-
-  if (lastErr instanceof Error) {
-    throw lastErr;
-  }
-  throw new TypeError('Failed to fetch');
-}
 
 const COUNTRIES_EMPTY_PREVIEW_IMAGES = [
   'https://www.figma.com/api/mcp/asset/ce0e8660-fd4e-4e06-ba46-215fafae0a09',
@@ -239,7 +165,7 @@ async function uploadViaBackend(file: File, countryCode: string, location: Selec
     formData.append('location_lng', String(location.lng));
   }
 
-  const res = await apiFetchWithBaseFallback('/api/media/upload', {
+  const res = await apiFetchWithFallback('/api/media/upload', {
     method: 'POST',
     body: formData,
   });
@@ -979,7 +905,7 @@ export default function UserProfilePage() {
     setEditorError('');
 
     try {
-      const visitRes = await apiFetchWithBaseFallback('/api/visits', {
+      const visitRes = await apiFetchWithFallback('/api/visits', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ country_code: countryCode }),
@@ -1005,7 +931,7 @@ export default function UserProfilePage() {
       const selectedThumbnail = finalizedByPendingID[thumbID] || finalizedByPendingID[pendingUploads[0].id];
       setUploadMessage('Saving country details...');
 
-      const countryMetaRes = await apiFetchWithBaseFallback('/api/media/country-meta', {
+      const countryMetaRes = await apiFetchWithFallback('/api/media/country-meta', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
