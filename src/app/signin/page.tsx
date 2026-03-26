@@ -15,6 +15,9 @@ const travelImages = [
   'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=150&h=200&fit=crop',
 ];
 
+const travelImageFallback =
+  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="%231d2a44"/><stop offset="100%" stop-color="%23111b2e"/></linearGradient></defs><rect width="150" height="200" fill="url(%23g)"/></svg>';
+
 export default function SignInPage() {
   const router = useRouter();
   const [mode, setMode] = useState<'signup' | 'signin'>('signin');
@@ -25,6 +28,7 @@ export default function SignInPage() {
   const [code, setCode] = useState(['', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [brokenTravelImages, setBrokenTravelImages] = useState<boolean[]>(() => travelImages.map(() => false));
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -241,8 +245,16 @@ export default function SignInPage() {
                       className="w-[83px] h-[123px] rounded-lg overflow-hidden bg-gray-800"
                     >
                       <Image
-                        src={src}
+                        src={brokenTravelImages[i] ? travelImageFallback : src}
                         alt={`Travel ${i + 1}`}
+                        onError={() => {
+                          setBrokenTravelImages((prev) => {
+                            if (prev[i]) return prev;
+                            const next = [...prev];
+                            next[i] = true;
+                            return next;
+                          });
+                        }}
                         className="w-full h-full object-cover"
                       />
                     </div>
