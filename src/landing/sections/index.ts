@@ -1,0 +1,9 @@
+export { default as HeroSection } from '@/landing/sections/components/HeroSection';
+export { default as OrganizeSection } from '@/landing/sections/components/OrganizeSection';
+export { default as CollectionsSection } from '@/landing/sections/components/CollectionsSection';
+export { default as WorldMapSection } from '@/landing/sections/components/WorldMapSection';
+export { default as TestimonialSection } from '@/landing/sections/components/TestimonialSection';
+export { default as FeaturedProfiles } from '@/landing/sections/components/FeaturedProfiles';
+export { default as TemplatesSection } from '@/landing/sections/components/TemplatesSection';
+export { default as PricingSection } from '@/landing/sections/components/PricingSection';
+export { default as JoinSection } from '@/landing/sections/components/JoinSection';

@@ -1,0 +1,162 @@
+[
+  {
+    "countryCode": "AE",
+    "name": "flag/AE",
+    "countryName": "United Arab Emirates",
+    "filename": "AE.svg",
+    "path": "/assets/flags/AE.svg",
+    "nodeId": "974:7346"
+  },
+  {
+    "countryCode": "AF",
+    "name": "flag/AF",
+    "countryName": "Afghanistan",
+    "filename": "AF.svg",
+    "path": "/assets/flags/AF.svg",
+    "nodeId": "974:7340"
+  },
+  {
+    "countryCode": "AG",
+    "name": "flag/AG",
+    "countryName": "Antigua and Barbuda",
+    "filename": "AG.svg",
+    "path": "/assets/flags/AG.svg",
+    "nodeId": "974:7332"
+  },
+  {
+    "countryCode": "AL",
+    "name": "flag/AL",
+    "countryName": "Albania",
+    "filename": "AL.svg",
+    "path": "/assets/flags/AL.svg",
+    "nodeId": "974:7314"
+  },
+  {
+    "countryCode": "AM",
+    "name": "flag/AM",
+    "countryName": "Armenia",
+    "filename": "AM.svg",
+    "path": "/assets/flags/AM.svg",
+    "nodeId": "974:7310"
+  },
+  {
+    "countryCode": "AO",
+    "name": "flag/AO",
+    "countryName": "Angola",
+    "filename": "AO.svg",
+    "path": "/assets/flags/AO.svg",
+    "nodeId": "974:7302"
+  },
+  {
+    "countryCode": "AQ",
+    "name": "flag/AQ",
+    "countryName": "Antarctica",
+    "filename": "AQ.svg",
+    "path": "/assets/flags/AQ.svg",
+    "nodeId": "974:7299"
+  },
+  {
+    "countryCode": "AR",
+    "name": "flag/AR",
+    "countryName": "Argentina",
+    "filename": "AR.svg",
+    "path": "/assets/flags/AR.svg",
+    "nodeId": "974:7294"
+  },
+  {
+    "countryCode": "AS",
+    "name": "flag/AS",
+    "countryName": "American Samoa",
+    "filename": "AS.svg",
+    "path": "/assets/flags/AS.svg",
+    "nodeId": "974:7287"
+  },
+  {
+    "countryCode": "AT",
+    "name": "flag/AT",
+    "countryName": "Austria",
+    "filename": "AT.svg",
+    "path": "/assets/flags/AT.svg",
+    "nodeId": "974:7284"
+  },
+  {
+    "countryCode": "AZ",
+    "name": "flag/AZ",
+    "countryName": "Azerbaijan",
+    "filename": "AZ.svg",
+    "path": "/assets/flags/AZ.svg",
+    "nodeId": "974:7253"
+  },
+  {
+    "countryCode": "BA",
+    "name": "flag/BA",
+    "countryName": "Bosnia and Herzegovina",
+    "filename": "BA.svg",
+    "path": "/assets/flags/BA.svg",
+    "nodeId": "974:7240"
+  },
+  {
+    "countryCode": "BB",
+    "name": "flag/BB",
+    "countryName": "Barbados",
+    "filename": "BB.svg",
+    "path": "/assets/flags/BB.svg",
+    "nodeId": "974:7235"
+  },
+  {
+    "countryCode": "BE",
+    "name": "flag/BE",
+    "countryName": "Belgium",
+    "filename": "BE.svg",
+    "path": "/assets/flags/BE.svg",
+    "nodeId": "974:7228"
+  },
+  {
+    "countryCode": "BH",
+    "name": "flag/BH",
+    "countryName": "Bahrain",
+    "filename": "BH.svg",
+    "path": "/assets/flags/BH.svg",
+    "nodeId": "974:7217"
+  },
+  {
+    "countryCode": "BI",
+    "name": "flag/BI",
+    "countryName": "Burundi",
+    "filename": "BI.svg",
+    "path": "/assets/flags/BI.svg",
+    "nodeId": "974:7207"
+  },
+  {
+    "countryCode": "BL",
+    "name": "flag/BL",
+    "countryName": "Saint Barthélemy",
+    "filename": "BL.svg",
+    "path": "/assets/flags/BL.svg",
+    "nodeId": "974:7191"
+  },
+  {
+    "countryCode": "BN",
+    "name": "flag/BN",
+    "countryName": "Brunei",
+    "filename": "BN.svg",
+    "path": "/assets/flags/BN.svg",
+    "nodeId": "974:7169"
+  },
+  {
+    "countryCode": "BV",
+    "name": "flag/BV",
+    "countryName": "Bouvet Island",
+    "filename": "BV.svg",
+    "path": "/assets/flags/BV.svg",
+    "nodeId": "974:7139"
+  },
+  {
+    "countryCode": "ZW",
+    "name": "flag/ZW",
+    "countryName": "Zimbabwe",
+    "filename": "ZW.svg",
+    "path": "/assets/flags/ZW.svg",
+    "nodeId": "974:5655"
+  }
+]

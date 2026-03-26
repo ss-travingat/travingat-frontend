@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "name": "Sophia",
+    "location": "USA",
+    "quote": "Really excited for Travingat's launch. Organizing my travels by country instead of random posts and folders sounds perfect.",
+    "photo": "/images/testimonial-photo-figma.png",
+    "socials": {
+      "instagram": "https://instagram.com/sophia",
+      "tiktok": "https://tiktok.com/@sophia",
+      "linkedin": "https://linkedin.com/in/sophia"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Kenji Nakamura",
+    "location": "Tokyo",
+    "quote": "Travingat helped me turn my scattered travel photos into a beautiful portfolio in minutes. I’ve tried many website builders before, but this one feels built specifically for travelers. Now my journeys finally have a home on the internet.",
+    "photo": "/testimonial-1772818738858.jpg",
+    "socials": {
+      "instagram": "",
+      "tiktok": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "6",
+    "name": "Lukas Weber",
+    "location": "Berlin",
+    "quote": "As someone who travels full-time, documenting my trips was always messy across Instagram and blogs. Travingat gave me a clean, organized way to showcase my travel timeline and stories. It’s surprisingly simple yet powerful.",
+    "photo": "/testimonial-1772818825248.jpg",
+    "socials": {
+      "instagram": "",
+      "tiktok": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "7",
+    "name": "Camila Santos",
+    "location": "São Paulo",
+    "quote": "I love how easy it is to add photos, videos, and short notes from each destination. My friends now follow my trips through my Travingat page instead of asking for updates all the time.",
+    "photo": "/testimonial-1772818894658.jpg",
+    "socials": {
+      "instagram": "",
+      "tiktok": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "8",
+    "name": "Ethan Clarke",
+    "location": "Vancouver",
+    "quote": "The design templates are beautiful and feel like they were made for explorers. My travel portfolio now looks professional without me needing any design skills.",
+    "photo": "/testimonial-1772818974073.webp",
+    "socials": {
+      "instagram": "",
+      "tiktok": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "9",
+    "name": "Ananya Rao",
+    "location": "Bengaluru",
+    "quote": "I always wanted a place to archive my journeys beyond social media. Travingat makes it feel like I’m building a digital passport of my travels. It’s simple, elegant, and perfect for storytellers.",
+    "photo": "/testimonial-1772819081542.jpg",
+    "socials": {
+      "instagram": "",
+      "tiktok": "",
+      "linkedin": ""
+    }
+  }
+]
