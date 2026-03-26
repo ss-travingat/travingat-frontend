@@ -40,3 +40,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Email Service Config (Vercel)
+
+The backend delegates OTP and magic-link email delivery to this frontend app via an internal API route.
+
+Required environment variables:
+
+- `INTERNAL_EMAIL_API_SECRET`: shared secret expected by `POST /api/internal/email/send`
+- `SMTP_HOST`: SMTP host (use `smtp.gmail.com`)
+- `SMTP_PORT`: SMTP port (`587` for STARTTLS or `465` for SSL)
+- `SMTP_USER`: Gmail address
+- `SMTP_PASS`: Gmail app password
+- `EMAIL_FROM`: sender identity (example: `Travingat <noreply@app.travingat.com>`)
+
+The backend should call:
+
+- `https://app.travingat.com/api/internal/email/send`
