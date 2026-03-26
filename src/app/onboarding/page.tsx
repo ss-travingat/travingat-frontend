@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
-import { apiFetch } from '@/lib/auth-client';
-import { API_URL } from '@/lib/api-client';
+import { apiFetchWithFallback } from '@/lib/api-client';
 import Image from 'next/image';
 
 const travelImages = [
@@ -20,6 +20,7 @@ const helperTextClass = 'text-[16px] font-normal leading-[1.4] tracking-[-0.41px
 const fieldInputClass = 'text-[36px] font-bold leading-[1.4] tracking-[-0.41px]';
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     displayName: '',
@@ -27,6 +28,7 @@ export default function OnboardingPage() {
     countriesTraveled: '',
     email: '',
   });
+  const [sessionUserID, setSessionUserID] = useState('');
   const [linkSent, setLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,13 +36,19 @@ export default function OnboardingPage() {
   useEffect(() => {
     const loadSession = async () => {
       try {
-        const meRes = await apiFetch(`${API_URL}/api/auth/me`);
+        const meRes = await apiFetchWithFallback('/api/auth/me');
         if (!meRes.ok) {
           // Allow guest users to continue onboarding and verify via email in later steps.
           return;
         }
 
-        const meData = (await meRes.json()) as { email?: string };
+        const meData = (await meRes.json()) as { user_id?: string; email?: string; onboarded?: boolean };
+        if (meData.onboarded && meData.user_id) {
+          router.replace(`/profile/${meData.user_id}`);
+          return;
+        }
+
+        setSessionUserID((meData.user_id || '').trim());
         setFormData((prev) => ({
           ...prev,
           email: (meData.email || '').trim().toLowerCase(),
@@ -51,7 +59,7 @@ export default function OnboardingPage() {
     };
 
     loadSession();
-  }, []);
+  }, [router]);
 
   const canProceed =
     step === 1
@@ -77,16 +85,37 @@ export default function OnboardingPage() {
   };
 
   const sendVerificationLink = async (keepCurrentStep: boolean) => {
-    if (!formData.email.trim()) {
-      setError('Please enter your email.');
-      return;
-    }
-
     setLoading(true);
     setError('');
 
     try {
-      const verifyRes = await fetch(`${API_URL}/api/auth/magic-link/send`, {
+      if (sessionUserID) {
+        const onboardRes = await apiFetchWithFallback('/api/auth/onboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            display_name: formData.displayName.trim(),
+            based_in: formData.basedIn,
+            countries_traveled: Number(formData.countriesTraveled),
+          }),
+        });
+
+        if (!onboardRes.ok) {
+          const onboardData = await onboardRes.json().catch(() => ({} as { error?: string }));
+          setError(onboardData.error || 'Failed to complete onboarding. Please try again.');
+          return;
+        }
+
+        router.push(`/profile/${sessionUserID}`);
+        return;
+      }
+
+      if (!formData.email.trim()) {
+        setError('Please enter your email.');
+        return;
+      }
+
+      const verifyRes = await apiFetchWithFallback('/api/auth/magic-link/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -264,8 +293,12 @@ export default function OnboardingPage() {
                   {step === 4 && (
                     <div>
                       <div className="mb-10">
-                        <h3 className={`${fieldTitleClass} mb-2`}>Email</h3>
-                        <p className={`${helperTextClass} text-[#767676]`}>We will send a verification link to this email.</p>
+                        <h3 className={`${fieldTitleClass} mb-2`}>{sessionUserID ? 'Ready to finish' : 'Email'}</h3>
+                        <p className={`${helperTextClass} text-[#767676]`}>
+                          {sessionUserID
+                            ? 'Your account is signed in. Complete onboarding to continue.'
+                            : 'We will send a verification link to this email.'}
+                        </p>
                       </div>
                       <input
                         type="email"
@@ -274,6 +307,7 @@ export default function OnboardingPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         placeholder="Enter your email"
+                        readOnly={Boolean(sessionUserID)}
                         className={`w-full rounded-xl bg-black border border-gray-700 px-4 py-4 focus:outline-none focus:border-white transition placeholder:text-gray-600 text-[28px] md:text-[36px] font-bold leading-[1.4] tracking-[-0.41px]`}
                       />
                     </div>
@@ -338,7 +372,7 @@ export default function OnboardingPage() {
                         disabled={loading || !canProceed}
                         className="flex-1 bg-white text-black py-3 rounded font-medium hover:bg-gray-100 transition ml-auto min-w-40 disabled:opacity-50"
                       >
-                        {loading ? 'Sending...' : 'Send verification link'}
+                        {loading ? (sessionUserID ? 'Finishing...' : 'Sending...') : (sessionUserID ? 'Complete onboarding' : 'Send verification link')}
                       </button>
                     ) : (
                       <Link

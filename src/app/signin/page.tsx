@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
-import { apiFetch } from '@/lib/auth-client';
-import { API_URL } from '@/lib/api-client';
+import { apiFetchWithFallback } from '@/lib/api-client';
 import Image from 'next/image';
 
 const travelImages = [
@@ -22,9 +21,8 @@ export default function SignInPage() {
   const router = useRouter();
   const [mode, setMode] = useState<'signup' | 'signin'>('signin');
   const [flow, setFlow] = useState('');
-  const [step, setStep] = useState<'options' | 'password' | 'email' | 'verify' | 'no-account'>('options');
+  const [step, setStep] = useState<'options' | 'email' | 'verify' | 'no-account'>('options');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [code, setCode] = useState(['', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -37,7 +35,7 @@ export default function SignInPage() {
 
     const checkSession = async () => {
       try {
-        const res = await apiFetch(`${API_URL}/api/auth/me`);
+        const res = await apiFetchWithFallback('/api/auth/me');
         if (!res.ok) return;
         const data = await res.json();
         if (data?.user_id) {
@@ -52,42 +50,8 @@ export default function SignInPage() {
   }, [router]);
 
   const handleGoogleSignin = () => {
-    window.location.href = `${API_URL}/api/auth/google`;
-  };
-
-  const handlePasswordSignin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Invalid email or password');
-        return;
-      }
-
-      if (data.user_id) {
-        window.location.href = `/profile/${data.user_id}`;
-        return;
-      }
-
-      window.location.href = '/signin';
-    } catch {
-      setError('Network error. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    // Start OAuth from same-origin proxy to avoid environment mismatch issues.
+    window.location.href = '/api/proxy/api/auth/google';
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -96,7 +60,7 @@ export default function SignInPage() {
     setError('');
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/otp/send`, {
+      const res = await apiFetchWithFallback('/api/auth/otp/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -148,10 +112,9 @@ export default function SignInPage() {
     setError('');
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/otp/verify`, {
+      const res = await apiFetchWithFallback('/api/auth/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ email, code: fullCode }),
       });
 
@@ -182,7 +145,7 @@ export default function SignInPage() {
     setError('');
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/otp/send`, {
+      const res = await apiFetchWithFallback('/api/auth/otp/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -275,18 +238,6 @@ export default function SignInPage() {
                     <span>Continue with Google</span>
                   </button>
 
-                  {mode === 'signin' ? (
-                    <button
-                      onClick={() => setStep('password')}
-                      className="w-full bg-[#2a2a2a] text-white h-[56px] rounded flex items-center justify-center gap-3 hover:bg-[#333] transition font-medium"
-                    >
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
-                      </svg>
-                      <span>Continue with Email and Password</span>
-                    </button>
-                  ) : null}
-
                   <button
                     onClick={() => setStep('email')}
                     className="w-full bg-[#2a2a2a] text-white h-[56px] rounded flex items-center justify-center gap-3 hover:bg-[#333] transition font-medium"
@@ -316,62 +267,6 @@ export default function SignInPage() {
                   </Link>
                   .
                 </p>
-              </>
-            )}
-
-            {/* Step: Email + Password */}
-            {step === 'password' && (
-              <>
-                <div className="mb-8">
-                  <h1 className="text-4xl font-semibold mb-4 text-center">Sign in</h1>
-                  <p className="text-sm text-gray-400 leading-relaxed text-center">
-                    Use your email and password to access your account.
-                  </p>
-                </div>
-
-                {error && (
-                  <div className="bg-red-500/10 border border-red-500/20 rounded px-4 py-3 mb-6 text-sm text-red-400 text-center">
-                    {error}
-                  </div>
-                )}
-
-                <form onSubmit={handlePasswordSignin} className="space-y-6">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email address"
-                    required
-                    className="w-full bg-transparent border-b border-gray-700 px-0 py-4 text-center text-lg focus:outline-none focus:border-white transition placeholder:text-gray-600"
-                  />
-
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    required
-                    className="w-full bg-transparent border-b border-gray-700 px-0 py-4 text-center text-lg focus:outline-none focus:border-white transition placeholder:text-gray-600"
-                  />
-
-                  <div className="space-y-4 pt-4">
-                    <button
-                      type="submit"
-                      disabled={loading || !email.trim() || !password}
-                      className="w-full bg-white text-black h-[54px] rounded hover:bg-gray-100 transition font-medium disabled:opacity-50"
-                    >
-                      {loading ? 'Signing in...' : 'Sign in'}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => { setStep('options'); setError(''); }}
-                      className="w-full h-[54px] rounded hover:bg-white/5 transition text-sm"
-                    >
-                      Back to sign in options
-                    </button>
-                  </div>
-                </form>
               </>
             )}
 

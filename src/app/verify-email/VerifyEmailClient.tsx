@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { API_URL } from '@/lib/api-client';
+import { apiFetchWithFallback } from '@/lib/api-client';
 
 export default function VerifyEmailClient() {
   const router = useRouter();
@@ -23,10 +23,9 @@ export default function VerifyEmailClient() {
       }
 
       try {
-        const res = await fetch(`${API_URL}/api/auth/magic-link/verify`, {
+        const res = await apiFetchWithFallback('/api/auth/magic-link/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
           body: JSON.stringify({ token }),
         });
         const data = await res.json();
