@@ -97,7 +97,7 @@ function FeatureItem({ feature }: { feature: string }) {
 
 export default function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false);
-  const onboardingUrl = "http://localhost:3000/onboarding";
+  const onboardingUrl = "/onboarding";
 
   const cardData = useMemo(
     () =>
@@ -127,18 +127,16 @@ export default function PricingSection() {
             <button
               type="button"
               onClick={() => setIsAnnual(false)}
-              className={`rounded-full px-4 py-2.5 text-[14px] font-medium leading-5 tracking-[-0.084px] transition ${
-                !isAnnual ? "bg-white text-black" : "text-white"
-              }`}
+              className={`rounded-full px-4 py-2.5 text-[14px] font-medium leading-5 tracking-[-0.084px] transition ${!isAnnual ? "bg-white text-black" : "text-white"
+                }`}
             >
               Monthly
             </button>
             <button
               type="button"
               onClick={() => setIsAnnual(true)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[14px] font-medium leading-5 tracking-[-0.084px] transition ${
-                isAnnual ? "bg-white text-black" : "text-white"
-              }`}
+              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[14px] font-medium leading-5 tracking-[-0.084px] transition ${isAnnual ? "bg-white text-black" : "text-white"
+                }`}
             >
               Annual
               <span className="rounded-full bg-[#2a9919] px-2 py-0.5 text-[10px] font-medium leading-4 text-white">

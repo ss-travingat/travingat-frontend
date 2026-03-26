@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const onboardingUrl = "http://localhost:3000/onboarding";
+  const onboardingUrl = "/onboarding";
 
   const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     event.preventDefault();
@@ -68,19 +68,16 @@ export default function LandingHeader() {
               aria-expanded={menuOpen}
             >
               <span
-                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${
-                  menuOpen ? "translate-y-0 rotate-45" : "-translate-y-[6px]"
-                }`}
+                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${menuOpen ? "translate-y-0 rotate-45" : "-translate-y-[6px]"
+                  }`}
               />
               <span
-                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
+                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${menuOpen ? "opacity-0" : "opacity-100"
+                  }`}
               />
               <span
-                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${
-                  menuOpen ? "translate-y-0 -rotate-45" : "translate-y-[6px]"
-                }`}
+                className={`absolute h-[2px] w-5 rounded-full bg-[#e3e3e3] transition-all duration-300 ${menuOpen ? "translate-y-0 -rotate-45" : "translate-y-[6px]"
+                  }`}
               />
             </button>
           </div>
@@ -88,14 +85,12 @@ export default function LandingHeader() {
       </div>
 
       <nav
-        className={`mx-auto w-full max-w-[1728px] overflow-hidden px-5 md:px-8 xl:hidden transition-all duration-300 ${
-          menuOpen ? "max-h-[420px] pb-5 opacity-100" : "max-h-0 pb-0 opacity-0"
-        }`}
+        className={`mx-auto w-full max-w-[1728px] overflow-hidden px-5 md:px-8 xl:hidden transition-all duration-300 ${menuOpen ? "max-h-[420px] pb-5 opacity-100" : "max-h-0 pb-0 opacity-0"
+          }`}
       >
         <div
-          className={`rounded-2xl border border-[#252525] bg-[#101010] p-2 shadow-[0_12px_40px_rgba(0,0,0,0.45)] transition-transform duration-300 ${
-            menuOpen ? "translate-y-0" : "-translate-y-2"
-          }`}
+          className={`rounded-2xl border border-[#252525] bg-[#101010] p-2 shadow-[0_12px_40px_rgba(0,0,0,0.45)] transition-transform duration-300 ${menuOpen ? "translate-y-0" : "-translate-y-2"
+            }`}
         >
           <a
             href="#featured"

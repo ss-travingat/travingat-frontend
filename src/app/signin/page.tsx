@@ -294,7 +294,7 @@ export default function SignInPage() {
                   </button>
 
                   <Link
-                    href={mode === 'signup' ? '/signin' : 'http://localhost:3000/onboarding'}
+                    href={mode === 'signup' ? '/signin' : '/onboarding'}
                     className="w-full h-[54px] rounded flex items-center justify-center text-sm hover:bg-white/5 transition"
                   >
                     {mode === 'signup' ? 'Already traveler? Sign in' : 'No account yet? Sign up'}

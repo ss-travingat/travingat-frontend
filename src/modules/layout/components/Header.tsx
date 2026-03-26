@@ -8,7 +8,7 @@ type HeaderProps = {
 
 export default function Header({ variant = "app" }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const onboardingUrl = "http://localhost:3000/onboarding";
+  const onboardingUrl = "/onboarding";
 
   if (variant === "landing") {
     return (
