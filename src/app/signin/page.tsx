@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
-import { apiFetchWithFallback } from '@/lib/api-client';
+import { API_FALLBACK_URL, API_URL, apiFetchWithFallback } from '@/lib/api-client';
 import Image from 'next/image';
 
 const travelImages = [
@@ -50,8 +50,9 @@ export default function SignInPage() {
   }, [router]);
 
   const handleGoogleSignin = () => {
-    // Start OAuth from same-origin proxy to avoid environment mismatch issues.
-    window.location.href = '/api/proxy/api/auth/google';
+    // Start OAuth directly on API host to avoid oversized app-domain cookie headers on proxy requests.
+    const preferredBase = API_FALLBACK_URL || API_URL;
+    window.location.href = `${preferredBase}/api/auth/google`;
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {

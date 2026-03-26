@@ -40,11 +40,15 @@ export function resolveApiBaseCandidates() {
 }
 
 export async function apiFetchWithFallback(path: string, init: RequestInit = {}) {
+	const retryableStatuses = new Set([404, 413, 431, 502]);
+	let lastResponse: Response | null = null;
+
 	try {
 		const proxyRes = await apiFetch(`/api/proxy${path}`, init);
-		if (proxyRes.status !== 502 && proxyRes.status !== 413) {
+		if (!retryableStatuses.has(proxyRes.status)) {
 			return proxyRes;
 		}
+		lastResponse = proxyRes;
 	} catch {
 		// Fall back to direct backend bases below.
 	}
@@ -52,10 +56,18 @@ export async function apiFetchWithFallback(path: string, init: RequestInit = {})
 	let lastErr: unknown = null;
 	for (const base of resolveApiBaseCandidates()) {
 		try {
-			return await apiFetch(`${base}${path}`, init);
+			const res = await apiFetch(`${base}${path}`, init);
+			if (!retryableStatuses.has(res.status)) {
+				return res;
+			}
+			lastResponse = res;
 		} catch (err) {
 			lastErr = err;
 		}
+	}
+
+	if (lastResponse) {
+		return lastResponse;
 	}
 
 	if (lastErr instanceof Error) {
