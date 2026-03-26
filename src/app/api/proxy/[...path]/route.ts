@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_BASE = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const BACKEND_FALLBACK_BASE = process.env.API_BASE_FALLBACK_URL || process.env.NEXT_PUBLIC_API_FALLBACK_URL || 'https://travingat-backend-production.up.railway.app';
 
 export const runtime = 'nodejs';
 
@@ -8,9 +9,21 @@ function normalizeBase(base: string) {
   return base.replace(/\/$/, '');
 }
 
+function stripApiSuffix(base: string) {
+  return base.replace(/\/api$/i, '');
+}
+
 function resolveBackendBases() {
   const bases = new Set<string>();
-  bases.add(normalizeBase(BACKEND_BASE));
+  const primary = normalizeBase(BACKEND_BASE);
+  bases.add(primary);
+  bases.add(stripApiSuffix(primary));
+
+  if (BACKEND_FALLBACK_BASE) {
+    const fallback = normalizeBase(BACKEND_FALLBACK_BASE);
+    bases.add(fallback);
+    bases.add(stripApiSuffix(fallback));
+  }
 
   if (process.env.NODE_ENV !== 'production') {
     bases.add('http://localhost:8080');
@@ -22,7 +35,14 @@ function resolveBackendBases() {
 
 function buildTargetURL(base: string, pathname: string, search: string) {
   const cleanPath = pathname.replace(/^\/+/, '');
-  return `${normalizeBase(base)}/${cleanPath}${search}`;
+  const normalizedBase = normalizeBase(base);
+
+  // Prevent accidental /api/api/* when base already ends with /api.
+  const finalPath = normalizedBase.toLowerCase().endsWith('/api') && cleanPath.toLowerCase().startsWith('api/')
+    ? cleanPath.slice(4)
+    : cleanPath;
+
+  return `${normalizedBase}/${finalPath}${search}`;
 }
 
 async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
