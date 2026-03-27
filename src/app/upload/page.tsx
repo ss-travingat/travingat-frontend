@@ -6,9 +6,10 @@ import { TravelImage } from '@/components/TravelImage';
 export default function UploadPage() {
   const { displayUrl, uploading, progress, error, upload } = useImageUpload();
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    // @ts-expect-error - useImageUpload is JS; country is valid at runtime
     await upload(file, { country: 'JP' });
   };
 
@@ -38,7 +39,7 @@ export default function UploadPage() {
           width={1200}
           height={800}
           className="rounded-xl w-full"
-          priority={true}
+
         />
       )}
 

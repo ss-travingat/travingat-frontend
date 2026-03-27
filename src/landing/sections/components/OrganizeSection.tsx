@@ -12,9 +12,7 @@ export default function OrganizeSection() {
           <img
             src="/images/organize-desktop.svg"
             alt="Organize travels by country and create collections"
-            fill
             className="object-contain"
-            priority
           />
           {/* Organize text — top left */}
           <div className="absolute left-0 top-[13.2%] max-w-[520px] z-10">

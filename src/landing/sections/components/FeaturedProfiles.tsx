@@ -23,7 +23,6 @@ function TravellerCard({
             <img
               src={profile.cover}
               alt={`${profile.name} cover`}
-              fill
               className="object-cover rounded-[14px]"
             />
           </div>
@@ -31,7 +30,6 @@ function TravellerCard({
             <img
               src={profile.avatar}
               alt={profile.name}
-              fill
               className="object-cover rounded-2xl"
             />
           </div>

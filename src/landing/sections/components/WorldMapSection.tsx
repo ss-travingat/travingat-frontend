@@ -18,7 +18,6 @@ export default function WorldMapSection() {
             width={393}
             height={450}
             className="w-full h-auto block"
-            priority
           />
           {/* Gradient overlay */}
           <div
@@ -47,7 +46,6 @@ export default function WorldMapSection() {
           <img
             src="/images/dotted-world-map.svg"
             alt=""
-            fill
             className="object-contain opacity-[0.18]"
           />
         </div>
@@ -57,9 +55,7 @@ export default function WorldMapSection() {
           <img
             src="/images/traveler-rachel-figma.png"
             alt="Traveler exploring the world"
-            fill
             className="object-contain object-bottom"
-            priority
           />
         </div>
 
@@ -99,7 +95,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/country-greece-figma.png"
                   alt="Greece"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -111,7 +106,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/country-thailand-figma.png"
                   alt="Thailand"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -123,7 +117,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/country-switzerland-figma.png"
                   alt="Switzerland"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -138,7 +131,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/map-italy.jpg"
                   alt="Italy"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -150,7 +142,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/map-nepal.jpg"
                   alt="Nepal"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -162,7 +153,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/map-france.jpg"
                   alt="France"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -186,7 +176,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/collection-streetshots.jpg"
                   alt="Street Shots"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -198,7 +187,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/collection-nightportraits.jpg"
                   alt="Night Portraits"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -213,7 +201,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/collection-skiing.jpg"
                   alt="Swiss Skiing"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />
@@ -225,7 +212,6 @@ export default function WorldMapSection() {
                 <img
                   src="/images/collection-franceroadtrip.jpg"
                   alt="France Road Trip"
-                  fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent from-70% to-black/50" />

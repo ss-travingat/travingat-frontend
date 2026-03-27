@@ -177,8 +177,7 @@ export default function OnboardingPage() {
                     <img
                       src={src}
                       alt={`Travel ${i + 1}`}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ))}

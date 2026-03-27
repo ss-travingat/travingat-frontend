@@ -9,8 +9,14 @@ export function TravelImage({
   width = 1200,
   height = 800,
   className = '',
-  priority = false,
-  quality = 88,
+  eager = false,
+}: {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  className?: string;
+  eager?: boolean;
 }) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
@@ -35,9 +41,7 @@ export function TravelImage({
         alt={alt}
         width={width}
         height={height}
-        quality={quality}
-        priority={priority}
-        loading={priority ? 'eager' : 'lazy'}
+        loading={eager ? 'eager' : 'lazy'}
         onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}
         className={`transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}

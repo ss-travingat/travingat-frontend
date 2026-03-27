@@ -46,7 +46,6 @@ export default function HeroSection() {
           width={1472}
           height={898}
           className="w-full h-auto"
-          priority
         />
       </div>
 
@@ -56,10 +55,8 @@ export default function HeroSection() {
           <img
             src="/images/hero-phones.svg"
             alt="Phone mockups showing travel profiles"
-            fill
             className="object-contain"
             sizes="(min-width: 1280px) 1256px, 100vw"
-            priority
           />
         </div>
       </div>
@@ -72,7 +69,6 @@ export default function HeroSection() {
           width={369}
           height={351}
           className="w-full h-auto"
-          priority
         />
       </div>
     </section>

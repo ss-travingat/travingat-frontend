@@ -70,7 +70,6 @@ export default function BlogSection() {
               <img
                 src={featured.coverImage}
                 alt={featured.title}
-                fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent xl:bg-gradient-to-r xl:from-transparent xl:to-[#141414]" />
@@ -122,7 +121,6 @@ export default function BlogSection() {
                     <img
                       src={blog.coverImage}
                       alt={blog.title}
-                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
