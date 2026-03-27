@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
 import { apiFetchWithFallback } from '@/lib/api-client';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 const travelImages = [
   'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=200&h=250&fit=crop',
@@ -172,12 +172,13 @@ export default function OnboardingPage() {
                 {travelImages.map((src, i) => (
                   <div
                     key={i}
-                    className="w-27 h-40 rounded-lg overflow-hidden bg-gray-800"
+                    className="relative w-27 h-40 rounded-lg overflow-hidden bg-gray-800"
                   >
-                    <Image
+                    <img
                       src={src}
                       alt={`Travel ${i + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 ))}

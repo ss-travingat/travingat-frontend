@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 
 export function TravelImage({
@@ -16,7 +16,7 @@ export function TravelImage({
   const [errored, setErrored] = useState(false);
 
   if (src?.startsWith('blob:')) {
-    return <Image src={src} alt={alt} className={`transition-opacity duration-300 ${className}`} />;
+    return <img src={src} alt={alt} className={`transition-opacity duration-300 ${className}`} />;
   }
 
   if (errored || !src) {
@@ -30,7 +30,7 @@ export function TravelImage({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
-      <Image
+      <img
         src={src}
         alt={alt}
         width={width}

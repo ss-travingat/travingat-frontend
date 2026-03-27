@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
 import { API_URL } from '@/lib/api-client';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 type Profile = {
   user_id: string;
@@ -182,7 +182,7 @@ export default function ArchivePage() {
                   {item.mime_type?.startsWith('video/') ? (
                     <video src={item.file_url} muted playsInline preload="metadata" className="w-full object-cover" />
                   ) : (
-                    <Image src={item.file_url} alt="Archived media" loading="lazy" decoding="async" className="w-full object-cover" />
+                    <img src={item.file_url} alt="Archived media" loading="lazy" decoding="async" className="w-full object-cover" />
                   )}
                 </Link>
 

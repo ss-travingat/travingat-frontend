@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { apiFetch, clearAccessToken } from '@/lib/auth-client';
 import { API_URL, apiFetchWithFallback } from '@/lib/api-client';
 import { flags, searchFlagsByName } from '@/lib/flags';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 const COUNTRIES_EMPTY_PREVIEW_IMAGES = [
   'https://www.figma.com/api/mcp/asset/ce0e8660-fd4e-4e06-ba46-215fafae0a09',
@@ -1153,7 +1153,7 @@ export default function UserProfilePage() {
                 <span className="material-symbols-rounded text-[#e3e3e3] text-[21px]">dehaze</span>
                 <div className="hidden md:block h-7 w-7 overflow-hidden rounded-lg">
                   {profile.avatar_url ? (
-                    <Image
+                    <img
                       src={profile.avatar_url}
                       alt="Profile"
                       loading="eager"
@@ -1223,14 +1223,14 @@ export default function UserProfilePage() {
               <div className="w-full">
                 <div className="h-[200px] mb-[-36px] rounded-[12px] overflow-hidden bg-[#151515]">
                   {profile.cover_image_url ? (
-                    <Image src={profile.cover_image_url} alt="Profile cover" className="w-full h-full object-cover" />
+                    <img src={profile.cover_image_url} alt="Profile cover" className="w-full h-full object-cover" />
                   ) : (
                     <div className="h-full w-full bg-[#1f1f1f]" />
                   )}
                 </div>
                 <div className="relative z-10 mx-auto h-20 w-20 rounded-[16px] border-4 border-black overflow-hidden bg-[#151515]">
                   {profile.avatar_url ? (
-                    <Image src={profile.avatar_url} alt="Profile avatar" className="w-full h-full object-cover" />
+                    <img src={profile.avatar_url} alt="Profile avatar" className="w-full h-full object-cover" />
                   ) : (
                     <div className="h-full w-full bg-[#1f1f1f]" />
                   )}
@@ -1240,7 +1240,7 @@ export default function UserProfilePage() {
               <div className="pt-1 text-center">
                 <div className="flex items-center justify-center gap-1.5 text-[#696969] text-sm">
                   {basedInFlagPath ? (
-                    <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-[15px] h-[10px] rounded-[2px] object-cover" />
+                    <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-[15px] h-[10px] rounded-[2px] object-cover" />
                   ) : null}
                   <span>{basedIn}</span>
                 </div>
@@ -1251,7 +1251,7 @@ export default function UserProfilePage() {
 
             <div className="flex flex-wrap justify-center gap-1">
               {headerFlagPaths.map((path, index) => (
-                <Image key={`${path}-${index}`} src={path} alt="Visited country flag" className="h-4 w-6 rounded-[2px] object-cover" />
+                <img key={`${path}-${index}`} src={path} alt="Visited country flag" className="h-4 w-6 rounded-[2px] object-cover" />
               ))}
             </div>
 
@@ -1279,7 +1279,7 @@ export default function UserProfilePage() {
               <div className="space-y-4">
                 <div className="group relative h-[120px] w-[120px] overflow-hidden rounded-[20px] bg-[#151515]">
                   {profile.avatar_url ? (
-                    <Image
+                    <img
                       src={profile.avatar_url}
                       alt="Profile avatar"
                       loading="eager"
@@ -1303,7 +1303,7 @@ export default function UserProfilePage() {
 
                 <div className="flex items-center gap-2 text-[#989898] text-[16px] md:text-[18px] tracking-[-0.2px] leading-[1.4]">
                   {basedInFlagPath ? (
-                    <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
+                    <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
                   ) : (
                     <span className="inline-block w-6 h-4 rounded-[4px] bg-[#222222]" />
                   )}
@@ -1319,7 +1319,7 @@ export default function UserProfilePage() {
 
               <div className="flex flex-wrap items-center gap-1.5">
                 {headerFlagPaths.map((path, index) => (
-                  <Image
+                  <img
                     key={`${path}-${index}`}
                     src={path}
                     alt="Visited country flag"
@@ -1332,7 +1332,7 @@ export default function UserProfilePage() {
                 <div className="grid grid-cols-3 gap-2 md:gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <Image
+                      <img
                         src={PROFILE_STATS_ICONS.countries}
                         alt="Countries icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1347,7 +1347,7 @@ export default function UserProfilePage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <Image
+                      <img
                         src={PROFILE_STATS_ICONS.allMedia}
                         alt="All media icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1362,7 +1362,7 @@ export default function UserProfilePage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-[#232323] grid place-items-center">
-                      <Image
+                      <img
                         src={PROFILE_STATS_ICONS.collections}
                         alt="Collections icon"
                         className="w-10 h-10 md:w-12 md:h-12 object-contain"
@@ -1390,7 +1390,7 @@ export default function UserProfilePage() {
             <div className="flex flex-row items-end justify-end self-stretch">
               <div className="group relative aspect-[640/662] h-full w-full max-w-[640px] overflow-hidden rounded-[32px] bg-[#111] border border-[#1f1f1f]">
                 {profile.cover_image_url ? (
-                  <Image
+                  <img
                     src={profile.cover_image_url}
                     alt="Profile cover"
                     loading="eager"
@@ -1563,7 +1563,7 @@ export default function UserProfilePage() {
                             </span>
                           </>
                         ) : (
-                          <Image
+                          <img
                             src={getLowQualityMediaURL(item.file_url)}
                             alt="Uploaded media"
                             loading="lazy"
@@ -1632,7 +1632,7 @@ export default function UserProfilePage() {
                       <div className="flex items-center gap-3">
                         {COLLECTIONS_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
                           <div key={src} className="w-[100px] h-[100px] rounded-[10px] overflow-hidden bg-[#151515]">
-                            <Image src={src} alt={`Empty media preview ${idx + 1}`} className="w-full h-full object-cover" />
+                            <img src={src} alt={`Empty media preview ${idx + 1}`} className="w-full h-full object-cover" />
                           </div>
                         ))}
                       </div>
@@ -1750,7 +1750,7 @@ export default function UserProfilePage() {
                               </span>
                             </>
                           ) : (
-                            <Image
+                            <img
                               src={getLowQualityMediaURL(item.file_url)}
                               alt="Uploaded media"
                               loading="lazy"
@@ -1810,7 +1810,7 @@ export default function UserProfilePage() {
                       <div className="flex items-center gap-3">
                         {COUNTRIES_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
                           <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                            <Image src={src} alt={`Country preview ${idx + 1}`} className="w-full h-full object-cover" />
+                            <img src={src} alt={`Country preview ${idx + 1}`} className="w-full h-full object-cover" />
                           </div>
                         ))}
                       </div>
@@ -1848,7 +1848,7 @@ export default function UserProfilePage() {
                         className="relative aspect-square rounded-2xl overflow-hidden bg-[#101010] block"
                       >
                         <div className="absolute inset-0 bg-[#151515]">
-                          {thumbnailURL ? <Image src={thumbnailURL} alt={`${countryName} thumbnail`} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : null}
+                          {thumbnailURL ? <img src={thumbnailURL} alt={`${countryName} thumbnail`} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : null}
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[70%] to-[rgba(0,0,0,0.5)]" />
                         </div>
                         <div className="relative h-full w-full flex items-end p-3">
@@ -1886,7 +1886,7 @@ export default function UserProfilePage() {
                     <div className="flex items-center gap-3">
                       {COLLECTIONS_EMPTY_PREVIEW_IMAGES.map((src, idx) => (
                         <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                          <Image src={src} alt={`Collection preview ${idx + 1}`} className="w-full h-full object-cover" />
+                          <img src={src} alt={`Collection preview ${idx + 1}`} className="w-full h-full object-cover" />
                         </div>
                       ))}
                     </div>
@@ -1939,7 +1939,7 @@ export default function UserProfilePage() {
                         className="group block"
                       >
                         <div className="relative aspect-[1.22] rounded-2xl overflow-hidden bg-[#151515] border border-[#1f1f1f]">
-                          {thumbnail ? <Image src={thumbnail} alt={collection.title} className="w-full h-full object-cover" /> : null}
+                          {thumbnail ? <img src={thumbnail} alt={collection.title} className="w-full h-full object-cover" /> : null}
                           <button
                             type="button"
                             aria-label="Collection options"
@@ -2002,7 +2002,7 @@ export default function UserProfilePage() {
                     {aboutPhotos.length > 0 ? (
                       aboutPhotos.map((src, idx) => (
                         <div key={`${src}-${idx}`} className="rounded-xl overflow-hidden border border-[#2b2b2b] bg-[#111] aspect-[1.06]">
-                          <Image src={src} alt={`About photo ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <img src={src} alt={`About photo ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       ))
                     ) : (
@@ -2039,7 +2039,7 @@ export default function UserProfilePage() {
                     <p className="text-[#7c7c7c] text-xs">Home land</p>
                     {homeland ? (
                       <div className="flex items-center gap-2 text-[#f0f0f0] text-sm">
-                        {homelandFlag ? <Image src={homelandFlag} alt="Homeland flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
+                        {homelandFlag ? <img src={homelandFlag} alt="Homeland flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
                         <span>{homeland}</span>
                       </div>
                     ) : (
@@ -2051,7 +2051,7 @@ export default function UserProfilePage() {
                     <p className="text-[#7c7c7c] text-xs">Currently in</p>
                     {currentlyIn ? (
                       <div className="flex items-center gap-2 text-[#f0f0f0] text-sm">
-                        {currentlyInFlag ? <Image src={currentlyInFlag} alt="Current location flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
+                        {currentlyInFlag ? <img src={currentlyInFlag} alt="Current location flag" className="w-5 h-3.5 rounded-sm object-cover" /> : null}
                         <span>{currentlyIn}</span>
                       </div>
                     ) : (
@@ -2260,7 +2260,7 @@ export default function UserProfilePage() {
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[#1a1a1a] transition"
                     >
-                      <Image src={item.path} alt={`${item.countryName} flag`} className="w-5 h-4 rounded-sm object-cover" />
+                      <img src={item.path} alt={`${item.countryName} flag`} className="w-5 h-4 rounded-sm object-cover" />
                       <span className="text-sm text-white">{item.countryName}</span>
                       <span className="ml-auto text-xs text-[#9d9d9d]">{item.countryCode}</span>
                     </button>
@@ -2307,7 +2307,7 @@ export default function UserProfilePage() {
                                   className="w-full h-auto object-cover"
                                 />
                               ) : (
-                                <Image src={item.preview} alt="Pending upload" loading="lazy" decoding="async" className="w-full h-auto object-cover" />
+                                <img src={item.preview} alt="Pending upload" loading="lazy" decoding="async" className="w-full h-auto object-cover" />
                               )}
                             </button>
                             <button
@@ -2339,7 +2339,7 @@ export default function UserProfilePage() {
                         className="w-12 h-12 rounded-lg object-cover"
                       />
                     ) : (
-                      <Image src={selectedUpload.preview} alt="Selected media" className="w-12 h-12 rounded-lg object-cover" />
+                      <img src={selectedUpload.preview} alt="Selected media" className="w-12 h-12 rounded-lg object-cover" />
                     )
                   ) : (
                     <div className="w-12 h-12 rounded-lg bg-[#1b1b1b]" />

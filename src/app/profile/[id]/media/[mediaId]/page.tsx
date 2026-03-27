@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 type Profile = {
   user_id: string;
@@ -225,7 +225,7 @@ export default function MediaViewerPage() {
                   {currentMedia.mime_type.startsWith('video/') ? (
                     <video src={currentMedia.file_url} controls autoPlay className="max-h-full w-auto max-w-full object-contain" />
                   ) : (
-                    <Image src={currentMedia.file_url} alt="Media" className="max-h-full w-auto max-w-full object-contain" />
+                    <img src={currentMedia.file_url} alt="Media" className="max-h-full w-auto max-w-full object-contain" />
                   )}
                 </div>
 
@@ -266,7 +266,7 @@ export default function MediaViewerPage() {
                           {item.mime_type.startsWith('video/') ? (
                             <video src={`${item.file_url}#t=0.1`} muted preload="metadata" className="h-full w-full object-cover" />
                           ) : (
-                            <Image src={item.file_url} alt="Media thumbnail" className="h-full w-full object-cover" />
+                            <img src={item.file_url} alt="Media thumbnail" className="h-full w-full object-cover" />
                           )}
                           <span className="absolute inset-x-0 bottom-0 bg-black/65 px-1 py-[2px] text-center text-[10px] text-white">
                             {idx + 1}
@@ -285,13 +285,13 @@ export default function MediaViewerPage() {
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 overflow-hidden rounded-xl bg-[#1e1e1e]">
-                    {profile.avatar_url ? <Image src={profile.avatar_url} alt={profileName} className="h-full w-full object-cover" /> : null}
+                    {profile.avatar_url ? <img src={profile.avatar_url} alt={profileName} className="h-full w-full object-cover" /> : null}
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-[#bcbcbc]">@{profile.username || profileName}</p>
                     <div className="flex items-center gap-2 text-sm text-[#9d9d9d]">
                       {currentCountry ? (
-                        <Image src={currentCountry.path} alt={`${currentCountryName} flag`} className="h-4 w-6 rounded-sm object-cover" />
+                        <img src={currentCountry.path} alt={`${currentCountryName} flag`} className="h-4 w-6 rounded-sm object-cover" />
                       ) : null}
                       <span>{currentCountryName}</span>
                     </div>

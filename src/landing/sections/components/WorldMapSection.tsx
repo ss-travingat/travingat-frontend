@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export default function WorldMapSection() {
   return (
@@ -12,7 +12,7 @@ export default function WorldMapSection() {
       <div className="relative mx-0 xl:max-w-[1300px] xl:mx-auto xl:h-[550px] overflow-hidden">
         {/* Mobile and iPad: single image with gradient + text overlay */}
         <div className="xl:hidden relative">
-          <Image
+          <img
             src="/images/travel-mobile-mockup.png"
             alt="One place for everywhere you've explored"
             width={393}
@@ -44,7 +44,7 @@ export default function WorldMapSection() {
         <div className="hidden xl:block relative w-full h-[550px]">
         {/* World map background */}
         <div className="absolute inset-0">
-          <Image
+          <img
             src="/images/dotted-world-map.svg"
             alt=""
             fill
@@ -54,7 +54,7 @@ export default function WorldMapSection() {
 
         {/* Central explore.png image (already contains tags + pins) */}
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[320px] xl:w-[660px] h-full z-10">
-          <Image
+          <img
             src="/images/traveler-rachel-figma.png"
             alt="Traveler exploring the world"
             fill
@@ -96,7 +96,7 @@ export default function WorldMapSection() {
             {/* Row 1 */}
             <div className="flex gap-2">
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/country-greece-figma.png"
                   alt="Greece"
                   fill
@@ -108,7 +108,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/country-thailand-figma.png"
                   alt="Thailand"
                   fill
@@ -120,7 +120,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/country-switzerland-figma.png"
                   alt="Switzerland"
                   fill
@@ -135,7 +135,7 @@ export default function WorldMapSection() {
             {/* Row 2 */}
             <div className="flex gap-2">
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/map-italy.jpg"
                   alt="Italy"
                   fill
@@ -147,7 +147,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/map-nepal.jpg"
                   alt="Nepal"
                   fill
@@ -159,7 +159,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 aspect-square rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/map-france.jpg"
                   alt="France"
                   fill
@@ -183,7 +183,7 @@ export default function WorldMapSection() {
             {/* Row 1 */}
             <div className="flex gap-2">
               <div className="flex-1 h-[85px] rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/collection-streetshots.jpg"
                   alt="Street Shots"
                   fill
@@ -195,7 +195,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 h-[85px] rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/collection-nightportraits.jpg"
                   alt="Night Portraits"
                   fill
@@ -210,7 +210,7 @@ export default function WorldMapSection() {
             {/* Row 2 */}
             <div className="flex gap-2">
               <div className="flex-1 h-[88px] rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/collection-skiing.jpg"
                   alt="Swiss Skiing"
                   fill
@@ -222,7 +222,7 @@ export default function WorldMapSection() {
                 </span>
               </div>
               <div className="flex-1 h-[88px] rounded-[10px] overflow-hidden relative">
-                <Image
+                <img
                   src="/images/collection-franceroadtrip.jpg"
                   alt="France Road Trip"
                   fill

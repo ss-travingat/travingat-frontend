@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { flags } from '@/lib/flags';
 import { apiFetch } from '@/lib/auth-client';
 import { API_URL } from '@/lib/api-client';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 const COUNTRIES_EMPTY_PREVIEW_IMAGES = [
   'https://www.figma.com/api/mcp/asset/ce0e8660-fd4e-4e06-ba46-215fafae0a09',
@@ -120,7 +120,7 @@ export default function MyProfilePage() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-[#989898] text-[18px] tracking-[-0.2px] leading-[26px]">
               {basedInFlagPath ? (
-                <Image src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
+                <img src={basedInFlagPath} alt={`${basedIn} flag`} className="w-6 h-4 rounded-[4px] object-cover" />
               ) : (
                 <span className="inline-block w-6 h-4 rounded-[4px] bg-[#222222]" />
               )}
@@ -199,7 +199,7 @@ export default function MyProfilePage() {
                 <div className="flex items-center gap-3">
                   {COUNTRIES_EMPTY_PREVIEW_IMAGES.map((src, index) => (
                     <div key={src} className="w-[76px] h-[76px] md:w-[100px] md:h-[100px] rounded-[10px] overflow-hidden">
-                      <Image src={src} alt={`Travel sample ${index + 1}`} className="w-full h-full object-cover" />
+                      <img src={src} alt={`Travel sample ${index + 1}`} className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>

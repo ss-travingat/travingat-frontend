@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/auth-client';
 import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 type Profile = {
   user_id: string;
@@ -706,7 +706,7 @@ export default function EditProfileByIDPage() {
             <aside className="w-full xl:w-[360px] bg-[#0e0e0e] border-2 border-[#1a1a1a] rounded-[20px] p-8 space-y-8">
               <div className="relative w-[120px] h-[120px] rounded-[20px] overflow-hidden">
                 {form.avatar_url ? (
-                  <Image
+                  <img
                     src={form.avatar_url}
                     alt="Profile avatar"
                     loading="eager"
@@ -769,7 +769,7 @@ export default function EditProfileByIDPage() {
                   <p className="text-[#757575] text-[14px]">Hero Photo</p>
                   <div className="relative rounded-[20px] overflow-hidden aspect-square">
                     {form.cover_image_url ? (
-                      <Image src={form.cover_image_url} alt="Hero" loading="eager" decoding="async" className="w-full h-full object-cover" />
+                      <img src={form.cover_image_url} alt="Hero" loading="eager" decoding="async" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full bg-[#1f1f1f]" />
                     )}
@@ -814,7 +814,7 @@ export default function EditProfileByIDPage() {
                       className="aspect-square bg-[#1a1a1a] border border-[#252525] rounded-[12px] overflow-hidden flex items-center justify-center"
                     >
                       {photo ? (
-                        <Image src={photo} alt={`Photo slot ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                        <img src={photo} alt={`Photo slot ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-[#656565] text-sm">Add Photo</span>
                       )}
@@ -1018,7 +1018,7 @@ export default function EditProfileByIDPage() {
                     className="w-full aspect-square rounded-2xl border border-[#2a2a2a] bg-[#141414] overflow-hidden flex items-center justify-center disabled:opacity-60"
                   >
                     {photo ? (
-                      <Image src={photo} alt={`Photo ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                      <img src={photo} alt={`Photo ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-[#7a7a7a]">Add Photo {index + 1}</span>
                     )}

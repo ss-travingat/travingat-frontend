@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect, useCallback, useRef } from "react";
 
 interface Testimonial {
@@ -83,7 +83,7 @@ export default function TestimonialSection() {
           onClick={() => goTo("prev")}
           className="w-[36px] h-[36px] xl:w-12 xl:h-12 flex items-center justify-center rotate-180 opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
         >
-          <Image
+          <img
             src="/arrow-right.svg"
             alt="Previous"
             width={48}
@@ -95,7 +95,7 @@ export default function TestimonialSection() {
           onClick={() => goTo("next")}
           className="w-[36px] h-[36px] xl:w-12 xl:h-12 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
         >
-          <Image
+          <img
             src="/arrow-right.svg"
             alt="Next"
             width={48}
@@ -117,7 +117,7 @@ export default function TestimonialSection() {
       >
         {/* Photo */}
         <div className="w-[134px] h-[204px] rounded-2xl overflow-hidden flex-shrink-0 xl:w-[354px] xl:h-[540px] xl:rounded-[20px]">
-          <Image
+          <img
             src={t.photo}
             alt={t.name}
             width={354}
@@ -131,7 +131,7 @@ export default function TestimonialSection() {
           <div>
             {/* Quote mark */}
             <div className="w-[35px] h-[30px] mb-4 xl:w-16 xl:h-14 xl:mb-6">
-              <Image
+              <img
                 src="/quote-mark.svg"
                 alt=""
                 width={64}
@@ -156,7 +156,7 @@ export default function TestimonialSection() {
             <div className="flex items-center gap-2.5">
               {t.socials.instagram && (
                 <a href={t.socials.instagram} target="_blank" rel="noopener noreferrer">
-                  <Image
+                  <img
                     src="/social-instagram.svg"
                     alt="Instagram"
                     width={32}
@@ -167,7 +167,7 @@ export default function TestimonialSection() {
               )}
               {t.socials.tiktok && (
                 <a href={t.socials.tiktok} target="_blank" rel="noopener noreferrer">
-                  <Image
+                  <img
                     src="/social-tiktok.svg"
                     alt="TikTok"
                     width={32}
@@ -178,7 +178,7 @@ export default function TestimonialSection() {
               )}
               {t.socials.linkedin && (
                 <a href={t.socials.linkedin} target="_blank" rel="noopener noreferrer">
-                  <Image
+                  <img
                     src="/social-linkedin.svg"
                     alt="LinkedIn"
                     width={32}

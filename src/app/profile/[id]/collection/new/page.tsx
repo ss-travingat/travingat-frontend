@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
  import { apiFetchWithFallback } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 const UPLOAD_QUOTES = [
   'Preserving your memories...',
@@ -457,7 +457,7 @@ export default function NewCollectionPage() {
                         }}
                         className={`group relative mb-5 w-full break-inside-avoid rounded-2xl overflow-hidden border-[3px] ${item.selected ? 'border-[#fda221]' : 'border-transparent'} ${reorderMode ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}`}
                       >
-                        <Image src={item.url} alt="Collection media" className="w-full h-auto object-cover" />
+                        <img src={item.url} alt="Collection media" className="w-full h-auto object-cover" />
                         {item.kind === 'existing' ? (
                           <span className={`absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border transition-opacity ${item.selected ? 'opacity-100 bg-[#ffc857] border-[#ffc857] text-black' : 'opacity-0 group-hover:opacity-100 bg-black/60 border-[#666] text-white'}`}>
                             {item.selected ? '✓' : '✕'}
@@ -476,9 +476,9 @@ export default function NewCollectionPage() {
 
               <aside className="bg-[#111] border-2 border-[#2a2a2a] rounded-2xl p-5 w-[320px] h-[720px] flex flex-col gap-5 shrink-0">
                 {selectedPending ? (
-                  <Image src={selectedPending.preview} alt="Selected pending" className="w-[72px] h-[72px] rounded-lg object-cover" />
+                  <img src={selectedPending.preview} alt="Selected pending" className="w-[72px] h-[72px] rounded-lg object-cover" />
                 ) : selectedMedia[0] ? (
-                  <Image src={selectedMedia[0].file_url} alt="Selected media" className="w-[72px] h-[72px] rounded-lg object-cover" />
+                  <img src={selectedMedia[0].file_url} alt="Selected media" className="w-[72px] h-[72px] rounded-lg object-cover" />
                 ) : (
                   <div className="w-[72px] h-[72px] rounded-lg bg-[#1b1b1b] border border-[#202020]" />
                 )}

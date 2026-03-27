@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/auth-client';
 import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
 import { ReportSheet, ShareSheet, ShareVariant } from '@/components/ProfileActionSheets';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 type MeResponse = {
   user_id: string;
@@ -445,7 +445,7 @@ export default function CollectionDetailPage() {
                     {item.mime_type.startsWith('video/') ? (
                       <video src={item.file_url} preload="metadata" className="w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
                     ) : (
-                      <Image src={item.file_url} alt="Collection media" className="w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+                      <img src={item.file_url} alt="Collection media" className="w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
                     )}
                   </Link>
 
@@ -529,7 +529,7 @@ export default function CollectionDetailPage() {
           <div className="mb-8 flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               {profile.avatar_url ? (
-                <Image src={profile.avatar_url} alt={profile.display_name || profile.username} className="h-14 w-14 rounded-xl object-cover" />
+                <img src={profile.avatar_url} alt={profile.display_name || profile.username} className="h-14 w-14 rounded-xl object-cover" />
               ) : (
                 <span className="h-14 w-14 rounded-xl bg-[#2a2a2a]" />
               )}
@@ -558,7 +558,7 @@ export default function CollectionDetailPage() {
           <section className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               {headerFlags.map((path, idx) => (
-                <Image key={`${path}-${idx}`} src={path} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
+                <img key={`${path}-${idx}`} src={path} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
               ))}
             </div>
 

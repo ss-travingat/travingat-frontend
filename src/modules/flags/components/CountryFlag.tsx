@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { getAllCountryCodes, getFlagByCountryCode } from '@/lib/flags';
 
 export interface CountryFlagProps {
@@ -49,7 +49,7 @@ export function CountryFlag({
   }
 
   return (
-    <Image
+    <img
       src={flag.path}
       alt={alt || `${flag.countryName} flag`}
       width={dimensions.width}

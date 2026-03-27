@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export default function CollectionsSection() {
   return (
@@ -16,7 +16,7 @@ export default function CollectionsSection() {
 
         {/* Phone mockup image */}
         <div className="relative mx-auto md:max-w-[600px]">
-          <Image
+          <img
             src="/images/collections-mobile-mockup.png"
             alt="Create collections that tell a story"
             width={369}

@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/modules/layout';
-import { API_FALLBACK_URL, API_URL, apiFetchWithFallback } from '@/lib/api-client';
-import Image from 'next/image';
+import { apiFetchWithFallback } from '@/lib/api-client';
+/* eslint-disable @next/next/no-img-element */
 
 const travelImages = [
   'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=150&h=200&fit=crop',
@@ -50,9 +50,8 @@ export default function SignInPage() {
   }, [router]);
 
   const handleGoogleSignin = () => {
-    // Start OAuth directly on API host to avoid oversized app-domain cookie headers on proxy requests.
-    const preferredBase = API_FALLBACK_URL || API_URL;
-    window.location.href = `${preferredBase}/api/auth/google`;
+    // Start OAuth via same-origin route to keep initiation logic centralized server-side.
+    window.location.href = '/api/auth/google';
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -208,9 +207,11 @@ export default function SignInPage() {
                       key={i}
                       className="w-[83px] h-[123px] rounded-lg overflow-hidden bg-gray-800"
                     >
-                      <Image
+                      <img
                         src={brokenTravelImages[i] ? travelImageFallback : src}
                         alt={`Travel ${i + 1}`}
+                        width={83}
+                        height={123}
                         onError={() => {
                           setBrokenTravelImages((prev) => {
                             if (prev[i]) return prev;

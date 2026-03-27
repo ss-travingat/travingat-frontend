@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
 import { demoProfiles } from "@/data/demo-profiles";
@@ -20,7 +20,7 @@ function TravellerCard({
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center pb-9 w-full">
           <div className="h-[107px] xl:h-[160px] -mb-9 relative rounded-[14px] w-full overflow-hidden">
-            <Image
+            <img
               src={profile.cover}
               alt={`${profile.name} cover`}
               fill
@@ -28,7 +28,7 @@ function TravellerCard({
             />
           </div>
           <div className="border-[5px] xl:border-8 border-black -mb-9 relative rounded-2xl w-[53px] h-[53px] xl:w-[80px] xl:h-[80px] overflow-hidden z-10">
-            <Image
+            <img
               src={profile.avatar}
               alt={profile.name}
               fill

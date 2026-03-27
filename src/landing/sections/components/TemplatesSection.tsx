@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export default function TemplatesSection() {
   return (
@@ -10,7 +10,7 @@ export default function TemplatesSection() {
       {/* Desktop: Full composite SVG image */}
       <div className="hidden xl:block xl:max-w-[1200px] xl:mx-auto">
         <div className="relative w-full" style={{ aspectRatio: '1536 / 1464' }}>
-          <Image src="/images/templates-desktop.svg" alt="Premium templates preview" fill className="object-contain" priority />
+          <img src="/images/templates-desktop.svg" alt="Premium templates preview" className="object-contain" />
         </div>
       </div>
 
@@ -18,12 +18,12 @@ export default function TemplatesSection() {
       <div className="mb-4 xl:hidden">
         {/* 3D Laptop on stone with gold badge */}
         <div className="mb-4 relative w-full md:max-w-[600px] md:mx-auto">
-          <Image src="/images/templates-desktop-pos1-figma.png" alt="Template preview on laptop" width={3000} height={2250} className="w-full h-auto" />
+          <img src="/images/templates-desktop-pos1-figma.png" alt="Template preview on laptop" width={3000} height={2250} className="w-full h-auto" />
         </div>
 
         {/* Phone mockup */}
         <div className="md:max-w-[600px] md:mx-auto">
-          <Image src="/images/templates-mockup2.png" alt="Template 1 phone preview" width={738} height={951} className="w-full h-auto" />
+          <img src="/images/templates-mockup2.png" alt="Template 1 phone preview" width={738} height={951} className="w-full h-auto" />
         </div>
       </div>
 
@@ -31,12 +31,12 @@ export default function TemplatesSection() {
       <div className="xl:hidden">
         {/* 3D Laptop on stone */}
         <div className="mb-4 relative w-full md:max-w-[600px] md:mx-auto">
-          <Image src="/images/templates-laptop2-figma.png" alt="Pro template preview" width={3000} height={2250} className="w-full h-auto" />
+          <img src="/images/templates-laptop2-figma.png" alt="Pro template preview" width={3000} height={2250} className="w-full h-auto" />
         </div>
 
         {/* Phone mockup 2 */}
         <div className="md:max-w-[600px] md:mx-auto">
-          <Image src="/images/templates-mobmock2.png" alt="Template 2 phone preview" width={738} height={951} className="w-full h-auto" />
+          <img src="/images/templates-mobmock2.png" alt="Template 2 phone preview" width={738} height={951} className="w-full h-auto" />
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export default function OrganizeSection() {
   return (
@@ -9,7 +9,7 @@ export default function OrganizeSection() {
           className="relative max-w-[1280px] mx-auto"
           style={{ aspectRatio: "1280 / 1360" }}
         >
-          <Image
+          <img
             src="/images/organize-desktop.svg"
             alt="Organize travels by country and create collections"
             fill
@@ -53,7 +53,7 @@ export default function OrganizeSection() {
 
         {/* Phone mockup image */}
         <div className="relative mx-auto md:max-w-[600px]">
-          <Image
+          <img
             src="/images/organize-mobile-mockup.png"
             alt="Organize travels by country"
             width={369}

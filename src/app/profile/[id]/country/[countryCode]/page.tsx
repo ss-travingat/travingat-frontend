@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/auth-client';
 import { API_URL } from '@/lib/api-client';
 import { flags } from '@/lib/flags';
 import { ReportSheet, ShareSheet, ShareVariant } from '@/components/ProfileActionSheets';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 
 type Profile = {
   user_id: string;
@@ -416,7 +416,7 @@ export default function CountryDetailPage() {
                     {item.mime_type.startsWith('video/') ? (
                       <video src={item.file_url} preload="metadata" className="w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
                     ) : (
-                      <Image
+                      <img
                         src={item.file_url}
                         alt={`${countryName} media`}
                         loading="lazy"
@@ -498,7 +498,7 @@ export default function CountryDetailPage() {
           <div className="mb-8 flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               {profile.avatar_url ? (
-                <Image src={profile.avatar_url} alt={displayName} className="h-14 w-14 rounded-xl object-cover" />
+                <img src={profile.avatar_url} alt={displayName} className="h-14 w-14 rounded-xl object-cover" />
               ) : (
                 <span className="h-14 w-14 rounded-xl bg-[#2a2a2a]" />
               )}
@@ -527,7 +527,7 @@ export default function CountryDetailPage() {
           <section className="space-y-4">
             <div className="flex items-center gap-3">
               {countryFlag ? (
-                <Image src={countryFlag.path} alt={`${countryName} flag`} className="h-6 w-9 rounded-[4px] object-cover" />
+                <img src={countryFlag.path} alt={`${countryName} flag`} className="h-6 w-9 rounded-[4px] object-cover" />
               ) : null}
               <h1 className="text-[28px] font-semibold leading-tight tracking-[-0.4px] text-[#ededed]">{countryName}</h1>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -67,7 +67,7 @@ export default function BlogSection() {
           <div className="relative rounded-2xl overflow-hidden bg-[#141414] border border-white/5 xl:flex xl:h-[400px]">
             {/* Cover image */}
             <div className="relative h-[220px] xl:h-full xl:w-[55%] overflow-hidden">
-              <Image
+              <img
                 src={featured.coverImage}
                 alt={featured.title}
                 fill
@@ -119,7 +119,7 @@ export default function BlogSection() {
                 <div className="bg-[#141414] rounded-xl border border-white/5 overflow-hidden hover:border-white/10 transition-colors">
                   {/* Cover */}
                   <div className="relative h-[180px] overflow-hidden">
-                    <Image
+                    <img
                       src={blog.coverImage}
                       alt={blog.title}
                       fill

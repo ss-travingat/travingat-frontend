@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useMemo, useState } from 'react';
 
 const SOCIAL_ICONS = {
@@ -91,9 +91,9 @@ export function ShareSheet({
             {variant === 'collection' ? (
               <div className="space-y-4">
                 <div className="relative h-[220px] w-full overflow-hidden rounded-2xl bg-[#222]">
-                  <Image src={previewUrl} alt={title} className="h-full w-full object-cover" />
+                  <img src={previewUrl} alt={title} className="h-full w-full object-cover" />
                   {ownerAvatarUrl ? (
-                    <Image
+                    <img
                       src={ownerAvatarUrl}
                       alt={ownerName}
                       className="absolute -bottom-3 left-1/2 h-14 w-14 -translate-x-1/2 rounded-xl border-2 border-[#161616] object-cover"
@@ -106,10 +106,10 @@ export function ShareSheet({
               <div className="space-y-4">
                 <div className="relative mx-auto w-[200px] pb-8">
                   <div className="h-[194px] w-[200px] overflow-hidden rounded-xl bg-[#222]">
-                    <Image src={previewUrl} alt={title} className="h-full w-full object-cover" />
+                    <img src={previewUrl} alt={title} className="h-full w-full object-cover" />
                   </div>
                   {ownerAvatarUrl ? (
-                    <Image
+                    <img
                       src={ownerAvatarUrl}
                       alt={ownerName}
                       className="absolute bottom-0 left-1/2 h-[60px] w-[60px] -translate-x-1/2 rounded-xl border-2 border-[#161616] object-cover"
@@ -120,7 +120,7 @@ export function ShareSheet({
                 <div className="flex items-center justify-center gap-2">
                   <p className="text-[34px] leading-8 font-medium text-white">{title}</p>
                   {variant === 'country' && countryFlagUrl ? (
-                    <Image src={countryFlagUrl} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
+                    <img src={countryFlagUrl} alt="Country flag" className="h-4 w-6 rounded-[2px] object-cover" />
                   ) : null}
                 </div>
               </div>
@@ -134,13 +134,13 @@ export function ShareSheet({
 
           <div className="grid grid-cols-5 gap-3">
             <button type="button" onClick={() => openShareWindow(shareLinks.whatsapp)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <Image src={SOCIAL_ICONS.whatsapp} alt="Share on WhatsApp" className="h-8 w-8 object-contain" />
+              <img src={SOCIAL_ICONS.whatsapp} alt="Share on WhatsApp" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.messenger)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <Image src={SOCIAL_ICONS.messenger} alt="Share on Messenger" className="h-8 w-8 object-contain" />
+              <img src={SOCIAL_ICONS.messenger} alt="Share on Messenger" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.facebook)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <Image src={SOCIAL_ICONS.facebook} alt="Share on Facebook" className="h-8 w-8 object-contain" />
+              <img src={SOCIAL_ICONS.facebook} alt="Share on Facebook" className="h-8 w-8 object-contain" />
             </button>
             <button
               type="button"
@@ -151,10 +151,10 @@ export function ShareSheet({
               }}
               className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]"
             >
-              <Image src={SOCIAL_ICONS.instagram} alt="Copy for Instagram" className="h-8 w-8 object-contain" />
+              <img src={SOCIAL_ICONS.instagram} alt="Copy for Instagram" className="h-8 w-8 object-contain" />
             </button>
             <button type="button" onClick={() => openShareWindow(shareLinks.x)} className="flex h-[52px] items-center justify-center rounded-xl bg-[#2a2a2a]">
-              <Image src={SOCIAL_ICONS.x} alt="Share on X" className="h-8 w-8 object-contain" />
+              <img src={SOCIAL_ICONS.x} alt="Share on X" className="h-8 w-8 object-contain" />
             </button>
           </div>
 
