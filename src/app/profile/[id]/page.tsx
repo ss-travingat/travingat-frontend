@@ -3,7 +3,7 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { apiFetch, clearAccessToken } from '@/lib/auth-client';
+import { apiFetch } from '@/lib/auth-client';
 import { API_URL, apiFetchWithFallback } from '@/lib/api-client';
 import { flags, searchFlagsByName } from '@/lib/flags';
 /* eslint-disable @next/next/no-img-element */
@@ -973,7 +973,7 @@ export default function UserProfilePage() {
         method: 'POST',
       });
     } finally {
-      clearAccessToken();
+
       router.push('/signin');
     }
   };

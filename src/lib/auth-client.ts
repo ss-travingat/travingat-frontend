@@ -1,14 +1,4 @@
-export function setAccessToken(token: string) {
-  void token;
-}
 
-export function getAccessToken(): string {
-  return '';
-}
-
-export function clearAccessToken() {
-  // Browser auth uses HttpOnly cookies only.
-}
 
 export function withAuth(init: RequestInit = {}): RequestInit {
   const headers = new Headers(init.headers || {});
