@@ -73,7 +73,7 @@ export default function OnboardingPage() {
             : linkSent;
 
   const handleNext = () => {
-    if (step < TOTAL_STEPS && canProceed) {
+    if (step < totalSteps && canProceed) {
       setStep(step + 1);
     }
   };
