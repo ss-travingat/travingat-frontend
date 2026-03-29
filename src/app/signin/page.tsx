@@ -50,8 +50,41 @@ export default function SignInPage() {
   }, [router]);
 
   const handleGoogleSignin = () => {
-    // Start OAuth via same-origin route to keep initiation logic centralized server-side.
-    window.location.href = '/api/auth/google';
+    const width = 500;
+    const height = 620;
+    const left = Math.round(window.screenX + (window.outerWidth - width) / 2);
+    const top = Math.round(window.screenY + (window.outerHeight - height) / 2);
+
+    const popup = window.open(
+      '/api/auth/google?popup=true',
+      'google-signin',
+      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+    );
+
+    if (!popup) {
+      // Popup blocked by browser — fall back to full-page redirect.
+      window.location.href = '/api/auth/google';
+      return;
+    }
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.type === 'google_oauth_success') {
+        window.removeEventListener('message', handleMessage);
+        clearInterval(pollClosed);
+        window.location.href = event.data.redirect;
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    // Cleanup if user closes the popup without completing sign-in.
+    const pollClosed = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(pollClosed);
+        window.removeEventListener('message', handleMessage);
+      }
+    }, 500);
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -179,7 +212,7 @@ export default function SignInPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="px-6 md:px-24 py-8 md:py-10">
-        <div className="max-w-[1488px] mx-auto flex items-center justify-between">
+        <div className="max-w-372 mx-auto flex items-center justify-between">
           <Link href="/" className="text-2xl font-semibold">
             travingat
           </Link>
@@ -188,8 +221,8 @@ export default function SignInPage() {
 
       {/* Main Content */}
       <main className="px-6 md:px-24 pb-24">
-        <div className="max-w-[1488px] mx-auto flex justify-center pt-8">
-          <div className="bg-[#1a1a1a] rounded-2xl p-9 w-full max-w-[440px]">
+        <div className="max-w-372 mx-auto flex justify-center pt-8">
+          <div className="bg-[#1a1a1a] rounded-2xl p-9 w-full max-w-110">
 
             {/* Step: Options */}
             {step === 'options' && (
@@ -205,7 +238,7 @@ export default function SignInPage() {
                   {travelImages.map((src, i) => (
                     <div
                       key={i}
-                      className="w-[83px] h-[123px] rounded-lg overflow-hidden bg-gray-800"
+                      className="w-20.75 h-30.75 rounded-lg overflow-hidden bg-gray-800"
                     >
                       <img
                         src={brokenTravelImages[i] ? travelImageFallback : src}
@@ -229,7 +262,7 @@ export default function SignInPage() {
                 <div className="space-y-4">
                   <button
                     onClick={handleGoogleSignin}
-                    className="w-full bg-white text-black h-[54px] rounded flex items-center justify-center gap-3 hover:bg-gray-100 transition font-medium"
+                    className="w-full bg-white text-black h-13.5 rounded flex items-center justify-center gap-3 hover:bg-gray-100 transition font-medium"
                   >
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path d="M19.8055 10.2292C19.8055 9.55212 19.7501 8.86627 19.6302 8.19922H10.2002V12.0492H15.6012C15.3761 13.2908 14.6567 14.3893 13.6023 15.0874V17.5866H16.8251C18.7196 15.8449 19.8055 13.2724 19.8055 10.2292Z" fill="#4285F4" />
@@ -242,7 +275,7 @@ export default function SignInPage() {
 
                   <button
                     onClick={() => setStep('email')}
-                    className="w-full bg-[#2a2a2a] text-white h-[56px] rounded flex items-center justify-center gap-3 hover:bg-[#333] transition font-medium"
+                    className="w-full bg-[#2a2a2a] text-white h-14 rounded flex items-center justify-center gap-3 hover:bg-[#333] transition font-medium"
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
@@ -252,7 +285,7 @@ export default function SignInPage() {
 
                   <Link
                     href={mode === 'signup' ? '/signin' : '/onboarding'}
-                    className="w-full h-[54px] rounded flex items-center justify-center text-sm hover:bg-white/5 transition"
+                    className="w-full h-14 rounded flex items-center justify-center text-sm hover:bg-white/5 transition"
                   >
                     {mode === 'signup' ? 'Already traveler? Sign in' : 'No account yet? Sign up'}
                   </Link>
@@ -276,8 +309,8 @@ export default function SignInPage() {
             {step === 'email' && (
               <>
                 <div className="flex justify-center mb-8">
-                  <div className="w-[100px] h-[100px] rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                  <div className="w-25 h-25 rounded-full overflow-hidden bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
                       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                     </svg>
                   </div>
@@ -307,7 +340,7 @@ export default function SignInPage() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full bg-white text-black h-[54px] rounded hover:bg-gray-100 transition font-medium disabled:opacity-50"
+                      className="w-full bg-white text-black h-13.5 rounded hover:bg-gray-100 transition font-medium disabled:opacity-50"
                     >
                       {loading ? 'Sending...' : 'Continue'}
                     </button>
@@ -315,7 +348,7 @@ export default function SignInPage() {
                     <button
                       type="button"
                       onClick={() => { setStep('options'); setError(''); }}
-                      className="w-full h-[54px] rounded hover:bg-white/5 transition text-sm"
+                      className="w-full h-14 rounded hover:bg-white/5 transition text-sm"
                     >
                       Back to sign in options
                     </button>
@@ -328,8 +361,8 @@ export default function SignInPage() {
             {step === 'verify' && (
               <>
                 <div className="flex justify-center mb-8">
-                  <div className="w-[100px] h-[100px] rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                  <div className="w-25 h-25 rounded-full overflow-hidden bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
                       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                     </svg>
                   </div>
@@ -371,7 +404,7 @@ export default function SignInPage() {
                   <button
                     onClick={handleVerify}
                     disabled={loading || code.join('').length !== 5}
-                    className="w-full bg-white text-black h-[54px] rounded hover:bg-gray-100 transition font-medium disabled:opacity-50"
+                    className="w-full bg-white text-black h-13.5 rounded hover:bg-gray-100 transition font-medium disabled:opacity-50"
                   >
                     {loading ? 'Verifying...' : 'Verify & Continue'}
                   </button>
@@ -379,14 +412,14 @@ export default function SignInPage() {
                   <button
                     onClick={handleResendCode}
                     disabled={loading}
-                    className="w-full h-[54px] rounded hover:bg-white/5 transition text-sm disabled:opacity-50"
+                    className="w-full h-13.5 rounded hover:bg-white/5 transition text-sm disabled:opacity-50"
                   >
                     Resend Code
                   </button>
 
                   <button
                     onClick={() => { setStep('email'); setError(''); setCode(['', '', '', '', '']); }}
-                    className="w-full h-[54px] rounded hover:bg-white/5 transition text-sm"
+                    className="w-full h-13.5 rounded hover:bg-white/5 transition text-sm"
                   >
                     Use a different email
                   </button>
@@ -398,8 +431,8 @@ export default function SignInPage() {
             {step === 'no-account' && (
               <>
                 <div className="flex justify-center mb-8">
-                  <div className="w-[100px] h-[100px] rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                  <div className="w-25 h-25 rounded-full overflow-hidden bg-linear-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
                     </svg>
                   </div>
@@ -418,14 +451,14 @@ export default function SignInPage() {
                 <div className="space-y-4">
                   <button
                     onClick={handleCreateAccount}
-                    className="w-full bg-white text-black h-[54px] rounded hover:bg-gray-100 transition font-medium"
+                    className="w-full bg-white text-black h-13.5 rounded hover:bg-gray-100 transition font-medium"
                   >
                     {mode === 'signup' ? 'Start profile setup' : 'Create account'}
                   </button>
 
                   <button
                     onClick={() => { setStep('email'); setError(''); setEmail(''); }}
-                    className="w-full h-[54px] rounded hover:bg-white/5 transition text-sm"
+                    className="w-full h-13.5 rounded hover:bg-white/5 transition text-sm"
                   >
                     Try a different email
                   </button>
