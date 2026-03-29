@@ -54,6 +54,21 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   headers.delete('content-length');
   headers.delete('connection');
 
+  // Only forward cookies the backend actually needs — stripping analytics/tracking
+  // cookies keeps the Cookie header small and prevents 431 from Fiber's read buffer.
+  const allowedCookiePrefixes = ['auth_token', 'oauth_'];
+  const rawCookie = req.headers.get('cookie') ?? '';
+  const filteredCookie = rawCookie
+    .split(';')
+    .map((c) => c.trim())
+    .filter((c) => allowedCookiePrefixes.some((prefix) => c.startsWith(prefix)))
+    .join('; ');
+  if (filteredCookie) {
+    headers.set('cookie', filteredCookie);
+  } else {
+    headers.delete('cookie');
+  }
+
   const needsBody = !['GET', 'HEAD'].includes(req.method);
   const rawBody = needsBody ? await req.arrayBuffer() : null;
 
