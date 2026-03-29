@@ -14,7 +14,6 @@ const travelImages = [
   'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=200&h=250&fit=crop',
 ];
 
-const TOTAL_STEPS = 5;
 const fieldTitleClass = 'text-[32px] font-semibold leading-[1.4] tracking-[-0.41px]';
 const helperTextClass = 'text-[16px] font-normal leading-[1.4] tracking-[-0.41px]';
 const fieldInputClass = 'text-[36px] font-bold leading-[1.4] tracking-[-0.41px]';
@@ -29,6 +28,7 @@ export default function OnboardingPage() {
     email: '',
   });
   const [sessionUserID, setSessionUserID] = useState('');
+  const totalSteps = sessionUserID ? 3 : 5;
   const [linkSent, setLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -197,7 +197,7 @@ export default function OnboardingPage() {
 
                   {/* Step Indicator */}
                   <div className="flex gap-1 w-48">
-                    {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((s) => (
+                    {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
                       <div
                         key={s}
                         className={`h-2 flex-1 rounded-full transition ${s === step
@@ -358,7 +358,15 @@ export default function OnboardingPage() {
                         </svg>
                       </button>
                     )}
-                    {step < 4 ? (
+                    {sessionUserID && step === 3 ? (
+                      <button
+                        onClick={() => sendVerificationLink(false)}
+                        disabled={loading || !canProceed}
+                        className="flex-1 bg-white text-black py-3 rounded font-medium hover:bg-gray-100 transition ml-auto min-w-40 disabled:opacity-50"
+                      >
+                        {loading ? 'Finishing...' : 'Complete setup'}
+                      </button>
+                    ) : step < 4 ? (
                       <button
                         onClick={handleNext}
                         disabled={!canProceed}
@@ -372,7 +380,7 @@ export default function OnboardingPage() {
                         disabled={loading || !canProceed}
                         className="flex-1 bg-white text-black py-3 rounded font-medium hover:bg-gray-100 transition ml-auto min-w-40 disabled:opacity-50"
                       >
-                        {loading ? (sessionUserID ? 'Finishing...' : 'Sending...') : (sessionUserID ? 'Complete onboarding' : 'Send verification link')}
+                        {loading ? 'Sending...' : 'Send verification link'}
                       </button>
                     ) : (
                       <Link
