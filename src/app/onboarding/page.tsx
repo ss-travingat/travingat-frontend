@@ -18,6 +18,12 @@ const fieldTitleClass = 'text-[32px] font-semibold leading-[1.4] tracking-[-0.41
 const helperTextClass = 'text-[16px] font-normal leading-[1.4] tracking-[-0.41px]';
 const fieldInputClass = 'text-[36px] font-bold leading-[1.4] tracking-[-0.41px]';
 
+function getSessionUIDCookie(): string {
+  if (typeof document === 'undefined') return '';
+  const match = document.cookie.match(/(?:^|;\s*)session_uid=([^;]+)/);
+  return match ? decodeURIComponent(match[1]).trim() : '';
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -27,7 +33,7 @@ export default function OnboardingPage() {
     countriesTraveled: '',
     email: '',
   });
-  const [sessionUserID, setSessionUserID] = useState('');
+  const [sessionUserID, setSessionUserID] = useState(() => getSessionUIDCookie());
   const totalSteps = sessionUserID ? 3 : 5;
   const [linkSent, setLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,7 +44,8 @@ export default function OnboardingPage() {
       try {
         const meRes = await apiFetchWithFallback('/api/auth/me');
         if (!meRes.ok) {
-          // Allow guest users to continue onboarding and verify via email in later steps.
+          // API call failed — keep the session_uid cookie value if present so the
+          // step count (3 vs 5) remains correct even when the session lookup fails.
           return;
         }
 
@@ -48,13 +55,20 @@ export default function OnboardingPage() {
           return;
         }
 
-        setSessionUserID((meData.user_id || '').trim());
+        // API confirmed the session — update with authoritative values.
+        const uid = (meData.user_id || '').trim();
+        setSessionUserID(uid);
+        if (!uid) {
+          // No authenticated session — clear the cookie-based value too.
+          document.cookie = 'session_uid=; Max-Age=0; Path=/; Domain=.travingat.com';
+          document.cookie = 'session_uid=; Max-Age=0; Path=/';
+        }
         setFormData((prev) => ({
           ...prev,
           email: (meData.email || '').trim().toLowerCase(),
         }));
       } catch {
-        // Ignore session load errors; onboarding still works for unauthenticated users.
+        // Ignore session load errors; the cookie-based sessionUserID is kept as-is.
       }
     };
 
