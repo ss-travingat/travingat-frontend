@@ -21,9 +21,9 @@ const COLLECTIONS_EMPTY_PREVIEW_IMAGES = [
 ] as const;
 
 const PROFILE_STATS_ICONS = {
-  countries: 'https://www.figma.com/api/mcp/asset/3cf742e9-1801-4c37-bfec-7513ed62c6a7',
-  allMedia: 'https://www.figma.com/api/mcp/asset/0a1ff485-b22a-4541-8d4a-29acfde0a276',
-  collections: 'https://www.figma.com/api/mcp/asset/42274c3e-58ff-4e91-82c9-3b13f2bce0f1',
+  countries: '/assets/profile-stats/countries.svg',
+  allMedia: '/assets/profile-stats/all-media.svg',
+  collections: '/assets/profile-stats/collections.svg',
 } as const;
 
 const UPLOAD_QUOTES = [
