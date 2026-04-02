@@ -798,6 +798,19 @@ export default function UserProfilePage() {
     setEditorError('');
   };
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({ url });
+      } catch {
+        // user cancelled or share failed
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setQueryTab(params.get('tab') || '');
@@ -1379,11 +1392,20 @@ export default function UserProfilePage() {
               </div>
 
               <div className="flex items-center gap-3">
-                <button className="rounded-full bg-white text-black px-6 py-2 text-sm font-medium hover:bg-[#ececec] transition">Follow</button>
-                <button className="rounded-full bg-[#1a1a1a] text-[#d5d5d5] px-6 py-2 text-sm font-medium hover:bg-[#242424] transition">Connect</button>
-                <button className="h-9 w-9 grid place-items-center rounded-full bg-[#1a1a1a] text-[#d5d5d5] hover:bg-[#242424] transition" aria-label="More options">
-                  <span className="material-symbols-rounded text-[18px]">more_horiz</span>
-                </button>
+                {isOwner ? (
+                  <>
+                    <button onClick={openEditor} className="rounded-full bg-white text-black px-6 py-2 text-sm font-medium hover:bg-[#ececec] transition">Edit Profile</button>
+                    <button onClick={handleShare} className="rounded-full bg-[#1a1a1a] text-[#d5d5d5] px-6 py-2 text-sm font-medium hover:bg-[#242424] transition">Share</button>
+                  </>
+                ) : (
+                  <>
+                    <button className="rounded-full bg-white text-black px-6 py-2 text-sm font-medium hover:bg-[#ececec] transition">Follow</button>
+                    <button className="rounded-full bg-[#1a1a1a] text-[#d5d5d5] px-6 py-2 text-sm font-medium hover:bg-[#242424] transition">Connect</button>
+                    <button className="h-9 w-9 grid place-items-center rounded-full bg-[#1a1a1a] text-[#d5d5d5] hover:bg-[#242424] transition" aria-label="More options">
+                      <span className="material-symbols-rounded text-[18px]">more_horiz</span>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -2126,11 +2148,20 @@ export default function UserProfilePage() {
 
           <div className="md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-[#161616] bg-black px-3 pt-3 pb-5">
             <div className="flex items-center gap-2">
-              <button className="flex-1 rounded-full bg-white text-black px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Follow</button>
-              <button className="h-[43px] w-[43px] rounded-full border border-[#363636] bg-[#181818] grid place-items-center text-white" aria-label="More options">
-                <span className="material-symbols-rounded text-[20px]">more_horiz</span>
-              </button>
-              <button className="flex-1 rounded-full border border-[#363636] bg-[#181818] text-white px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Connect</button>
+              {isOwner ? (
+                <>
+                  <button onClick={openEditor} className="flex-1 rounded-full bg-white text-black px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Edit Profile</button>
+                  <button onClick={handleShare} className="flex-1 rounded-full border border-[#363636] bg-[#181818] text-white px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Share</button>
+                </>
+              ) : (
+                <>
+                  <button className="flex-1 rounded-full bg-white text-black px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Follow</button>
+                  <button className="h-[43px] w-[43px] rounded-full border border-[#363636] bg-[#181818] grid place-items-center text-white" aria-label="More options">
+                    <span className="material-symbols-rounded text-[20px]">more_horiz</span>
+                  </button>
+                  <button className="flex-1 rounded-full border border-[#363636] bg-[#181818] text-white px-5 py-2.5 text-[16px] font-medium tracking-[-0.41px]">Connect</button>
+                </>
+              )}
             </div>
           </div>
         </main>
