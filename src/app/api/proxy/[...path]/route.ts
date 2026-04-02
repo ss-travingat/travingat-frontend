@@ -53,6 +53,10 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   headers.delete('host');
   headers.delete('content-length');
   headers.delete('connection');
+  // Force identity encoding so Railway never sends brotli/gzip-compressed bodies.
+  // Node.js undici (used by Next.js) does not decompress brotli, causing the proxy
+  // to strip content-encoding but pass raw compressed bytes to the browser.
+  headers.set('accept-encoding', 'identity');
 
   // Only forward cookies the backend actually needs — stripping analytics/tracking
   // cookies keeps the Cookie header small and prevents 431 from Fiber's read buffer.
