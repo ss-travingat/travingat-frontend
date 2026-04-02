@@ -88,7 +88,24 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
 
     try {
       const upstream = await fetch(targetURL, init);
-      const responseHeaders = new Headers(upstream.headers);
+
+      // Build response headers carefully — new Headers(upstream.headers) can
+      // combine multiple Set-Cookie values into one comma-separated string,
+      // which browsers reject.  Instead, copy non-cookie headers normally and
+      // re-append each Set-Cookie individually.
+      const responseHeaders = new Headers();
+      for (const [key, value] of upstream.headers.entries()) {
+        if (key.toLowerCase() === 'set-cookie') continue;
+        responseHeaders.set(key, value);
+      }
+      const setCookies =
+        typeof upstream.headers.getSetCookie === 'function'
+          ? upstream.headers.getSetCookie()
+          : [];
+      for (const cookie of setCookies) {
+        responseHeaders.append('set-cookie', cookie);
+      }
+
       responseHeaders.delete('content-encoding');
       responseHeaders.delete('transfer-encoding');
 
